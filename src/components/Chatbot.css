@@ -1,0 +1,75 @@
+#blur.active {
+    filter: blur(20px);
+    pointer-events: none;
+    user-select: none;
+}
+
+#chatbot {
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    padding: 50px;
+    box-shadow: 0px 5px 30px;
+    background: #fff;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.5s;
+}
+
+#chatbot.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.chat-container {
+    width: 500px;
+}
+
+.chat-messages {
+    padding: 10px;
+    margin-bottom: 10px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.message {
+    max-width: 70%;
+    padding: 8px 12px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+
+.user-message {
+    background-color: #007bff;
+    color: #fff;
+    align-self: flex-end;
+}
+
+.other-message {
+    background-color: #f0f0f0;
+    color: #333;
+    align-self: flex-start;
+}
+
+input[type="text"] {
+    width: 70%;
+    padding: 5px;
+    border: 1px solid black;
+}
+
+.showBOT {
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.closeBOT {
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    background-color: red;
+    color: white;
+}
