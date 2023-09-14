@@ -63,9 +63,8 @@ export default function App() {
             ))}
           </div>
 
-          <input type="text" id="message-input" placeholder="Type your message..." onKeyDown={handleKeyDown} value={inputMessage} onChange={(e) => setInputMessage(e.target.value)} />
-          
-          <button style={{backgroundColor: 'green', color:'white'}}className= "mx-3" id="send-button" onClick={handleChat}> Send </button>
+          <input type="text" id="message-input" placeholder="Type your message..." onKeyDown={handleKeyDown} value={inputMessage} onChange={(e) => setInputMessage(e.target.value)} /><i class="bi bi-send"></i>
+          <button style={{backgroundColor: 'green', color:'white'}}className= "mx-3" id="send-button" onClick={handleChat}> Send <i className="bi bi-send"></i> </button>
         </div>
 
         <br />
