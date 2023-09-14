@@ -8,7 +8,7 @@ export default function App() {
   useEffect(() => {
     setMessages([
       { text: "Hello, I am Krishna's Personal Bot", sender: 'bot' },
-      { text: 'Feel free to ask me anything.', sender: 'bot'},
+      { text: 'Feel free to ask me anything.', sender: 'bot' },
     ]);
   }, []);
 
@@ -18,6 +18,7 @@ export default function App() {
 
     let chatbot = document.getElementById('chatbot');
     chatbot.classList.toggle('active');
+
   };
 
   const handleChat = () => {
@@ -33,8 +34,10 @@ export default function App() {
     }
   };
 
+
+
   return (
-    <>
+    <>  
       <div className="container" id="blur">
         <br />
         <button className="showBOT" onClick={toggleBOT}>
@@ -64,7 +67,7 @@ export default function App() {
           </div>
 
           <input type="text" id="message-input" placeholder="Type your message..." onKeyDown={handleKeyDown} value={inputMessage} onChange={(e) => setInputMessage(e.target.value)} /><i className="bi bi-send"></i>
-          <button style={{backgroundColor: 'green', color:'white'}}className= "mx-3" id="send-button" onClick={handleChat}> Send <i className="bi bi-send"></i> </button>
+          <button style={{ backgroundColor: 'green', color: 'white' }} className="mx-3" id="send-button" onClick={handleChat}> Send <i className="bi bi-send"></i> </button>
         </div>
 
         <br />
