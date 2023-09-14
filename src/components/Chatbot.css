@@ -25,6 +25,7 @@
 
 .chat-container {
     width: 500px;
+    scroll-behavior: auto;
 }
 
 .chat-messages {
