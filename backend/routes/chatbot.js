@@ -1,32 +1,30 @@
 const express = require('express');
 const router = express.Router();
-const { spawn } = require('child_process');
+const { PythonShell } = require('python-shell');
 
-router.post('/api/chats', async (req, res) => {
-    const user_input = req.body.message;
+// Define a route to handle chatbot requests
+router.post('/chatbot', (req, res) => {
+  const userQuery = req.body.query;
 
-    if (user_input.trim() === '') {
-        return res.json({ response: 'Please enter a valid query.' });
+  if (!userQuery || userQuery.trim().length === 0) {
+    return res.status(400).json({ error: 'Please enter a valid query.' });
+  }
+
+  // Run the Python script with user input
+  const options = {
+    scriptPath: __dirname, // Adjust this path as needed
+    args: [userQuery],
+  };
+
+  PythonShell.run('chatbot.py', options, (err, results) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: 'Internal server error.' });
     }
 
-    // Spawn a Python process to run your chatbot.py script
-    const pythonProcess = spawn('python', ['chatbot.py', user_input]);
-
-    pythonProcess.stdout.on('data', (data) => {
-        const predicted_answer = data.toString().trim();
-        res.json({ response: predicted_answer });
-    });
-
-    pythonProcess.stderr.on('data', (data) => {
-        console.error(`Error from Python process: ${data}`);
-        res.status(500).json({ response: 'Internal Server Error' });
-    });
-
-    pythonProcess.on('close', (code) => {
-        if (code !== 0) {
-            console.error(`Python process exited with code ${code}`);
-        }
-    });
+    const chatbotResponse = results[0];
+    res.json({ response: chatbotResponse });
+  });
 });
 
 module.exports = router;

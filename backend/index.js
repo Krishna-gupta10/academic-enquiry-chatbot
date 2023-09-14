@@ -1,12 +1,14 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+const chatbotRoute = require('./routes/chatbot.js'); // Adjust the path as needed
+
 const app = express();
-const port = 5000;
+const port = process.env.PORT || 5000;
 
-// Middleware: Parse JSON request bodies
-app.use(express.json());
+app.use(bodyParser.json());
 
-// Routes available at /api/chatbot
-app.use('/api/chatbot', require('./routes/chatbot.js'));
+// Use the chatbot route
+app.use('/', chatbotRoute);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
