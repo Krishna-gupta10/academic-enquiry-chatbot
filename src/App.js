@@ -1,10 +1,10 @@
 import React from 'react'
-import Chatbot from './components/Chatbot.js'
+import Bot from './components/Bot.js'
 
 export default function App() {
   return (
     <>
-    <Chatbot />
+    <Bot />
     </>
   )
 }

@@ -39,7 +39,7 @@ router.post('/chatbot', async (req, res) => {
 
   try {
     const chatbotResponse = await chatbotResponsePromise;
-    res.json({ response: chatbotResponse });
+    res.json(chatbotResponse);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error.' });
