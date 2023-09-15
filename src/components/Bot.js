@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './Bot.css';
+import messageSound from './message.mp3';
 
 export default function App() {
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
+  const [isBotTyping, setIsBotTyping] = useState(false);
+  const audio = useRef(null);
 
   useEffect(() => {
     setMessages([
@@ -26,6 +29,8 @@ export default function App() {
       setMessages((prevMessages) => [...prevMessages, userMessage]);
       setInputMessage('');
 
+      setIsBotTyping(true);
+
       fetch("http://localhost:5000/chatbot", {
         method: "POST",
         headers: {
@@ -35,17 +40,19 @@ export default function App() {
       })
         .then((response) => response.json())
         .then((data) => {
+          audio.current.play();
           const botMessage = { text: data.response, sender: 'bot' };
           setMessages((prevMessages) => [...prevMessages, botMessage]);
         })
         .catch((error) => {
           console.error("Error:", error);
         
+        })
+        .finally(()=> {
+          setIsBotTyping(false);
         });
     }
   };
-
-
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
@@ -63,14 +70,14 @@ export default function App() {
       </div>
 
       <div id="chatbot">
-        <nav className="navbar bg-body-tertiary my-3">
+        <nav className="navbar my-3" style= {{backgroundColor: '#2f86b9'}}>
           <div className="container-fluid">
-            <a className="navbar-brand" href="/">
-              *insert image / logo here*
-              iAmBot
+            <a className="navbar-brand" style = {{color: '#fff'}} href="/">
+              VishwaGuru
             </a>
           </div>
         </nav>
+
         <div className="chat-container">
           <div className="chat-messages" id="chat-messages">
             {messages.map((message, index) => (
@@ -83,16 +90,24 @@ export default function App() {
             ))}
           </div>
 
+          { isBotTyping && 
+          <div className="message bot-message">
+              Typing...
+          </div>
+}
+
           <input type="text" id="message-input" placeholder="Type your message..." onKeyDown={handleKeyDown} value={inputMessage} onChange={(e) => setInputMessage(e.target.value)} />
-          <i className="bi bi-send"></i>
-          <button style={{ backgroundColor: 'green', color: 'white' }} className="mx-3" id="send-button" onClick={handleChat}> Send <i className="bi bi-send"></i> </button>
+          <button style={{ backgroundColor: 'green', color: 'white' }} className="my-2" id="send-button" onClick={handleChat}> Send  </button>
+      
         </div>
 
         <br />
-        <button className="closeBOT" onClick={toggleBOT}>
-          iCloseBot
+        <button className="closeBOT" onClick={toggleBOT} >
+        ❌
         </button>
       </div>
+
+      <audio ref={audio} src={messageSound} preload="auto" />
     </>
   );
 }
