@@ -12,7 +12,7 @@ router.post('/chatbot', async (req, res) => {
 
 
   const chatbotResponsePromise = new Promise((resolve, reject) => {
-    const pythonProcess = spawn('python', ['./routes/chatbot.py', userQuery]);
+    const pythonProcess = spawn('python', ['./backend/routes/chatbot.py', userQuery]);
 
     pythonProcess.stdout.on('data', (data) => {
       const responseString = data.toString();

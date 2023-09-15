@@ -5,7 +5,7 @@ import json
 import sys
 
 # Load the training data
-training_set = pd.read_excel('./routes/training_set.xlsx', sheet_name='Sheet1')
+training_set = pd.read_excel('./backend/routes/training_set.xlsx', sheet_name='Sheet1')
 X_train = training_set['Questions']
 y_train = training_set['Answers']
 
