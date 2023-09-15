@@ -7,7 +7,7 @@ export default function App() {
 
   useEffect(() => {
     setMessages([
-      { text: "Hello, I am Krishna's Personal Bot", sender: 'bot' },
+      { text: "Hello, I am Bot", sender: 'bot' },
       { text: 'Feel free to ask me anything.', sender: 'bot' },
     ]);
   }, []);
@@ -18,16 +18,34 @@ export default function App() {
 
     let chatbot = document.getElementById('chatbot');
     chatbot.classList.toggle('active');
-
-    // console.log(fetch('localhost:5000/chatbot'));
   };
 
   const handleChat = () => {
     if (inputMessage.trim() !== '') {
-      setMessages([...messages, { text: inputMessage, sender: 'user' }]);
+      const userMessage = { text: inputMessage, sender: 'user' };
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
       setInputMessage('');
+
+      fetch("http://localhost:5000/chatbot", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ query: inputMessage }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          const botMessage = { text: data.response, sender: 'bot' };
+          setMessages((prevMessages) => [...prevMessages, botMessage]);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        
+        });
     }
   };
+
+
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
@@ -35,10 +53,8 @@ export default function App() {
     }
   };
 
-
-
   return (
-    <>  
+    <>
       <div className="container" id="blur">
         <br />
         <button className="showBOT" onClick={toggleBOT}>
@@ -67,7 +83,8 @@ export default function App() {
             ))}
           </div>
 
-          <input type="text" id="message-input" placeholder="Type your message..." onKeyDown={handleKeyDown} value={inputMessage} onChange={(e) => setInputMessage(e.target.value)} /><i className="bi bi-send"></i>
+          <input type="text" id="message-input" placeholder="Type your message..." onKeyDown={handleKeyDown} value={inputMessage} onChange={(e) => setInputMessage(e.target.value)} />
+          <i className="bi bi-send"></i>
           <button style={{ backgroundColor: 'green', color: 'white' }} className="mx-3" id="send-button" onClick={handleChat}> Send <i className="bi bi-send"></i> </button>
         </div>
 
