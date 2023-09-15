@@ -19,6 +19,7 @@ export default function App() {
     let chatbot = document.getElementById('chatbot');
     chatbot.classList.toggle('active');
 
+    // console.log(fetch('localhost:5000/chatbot'));
   };
 
   const handleChat = () => {
