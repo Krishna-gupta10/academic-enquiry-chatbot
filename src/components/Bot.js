@@ -10,8 +10,8 @@ export default function App() {
 
   useEffect(() => {
     setMessages([
-      { text: "Hello, I am Bot", sender: 'bot' },
-      { text: 'Feel free to ask me anything.', sender: 'bot' },
+      { text: "Hello, I am VishwaGuru!", sender: 'bot' },
+      { text: 'Feel free to ask me anything about Vishwakarma Institute of Technology.', sender: 'bot' },
     ]);
   }, []);
 
