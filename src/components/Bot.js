@@ -6,6 +6,7 @@ export default function App() {
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
   const [isBotTyping, setIsBotTyping] = useState(false);
+  const [options, setOptions] = useState([]);
   const audio = useRef(null);
 
   useEffect(() => {
@@ -36,22 +37,56 @@ export default function App() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ query: inputMessage }),
+        body: JSON.stringify({ query: inputMessage, selected_option: null }),
       })
         .then((response) => response.json())
         .then((data) => {
           audio.current.play();
           const botMessage = { text: data.response, sender: 'bot' };
           setMessages((prevMessages) => [...prevMessages, botMessage]);
+
+          if (data.options) {
+            setOptions(data.options);
+          }
         })
         .catch((error) => {
           console.error("Error:", error);
-        
         })
         .finally(()=> {
           setIsBotTyping(false);
         });
     }
+  };
+
+  const handleOptionClick = (option) => {
+    const botMessage = { text: option, sender: 'user' };
+    setMessages((prevMessages) => [...prevMessages, botMessage]);
+
+    setIsBotTyping(true);
+
+    fetch("http://localhost:5000/chatbot", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ query: option, selected_option: option }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        audio.current.play();
+        const botMessage = { text: data.response, sender: 'bot' };
+        setMessages((prevMessages) => [...prevMessages, botMessage]);
+
+        if (data.options) {
+          setOptions(data.options);
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      })
+      .finally(()=> {
+        setIsBotTyping(false);
+      });
   };
 
   const handleKeyDown = (event) => {
@@ -70,9 +105,9 @@ export default function App() {
       </div>
 
       <div id="chatbot">
-        <nav className="navbar my-3" style= {{backgroundColor: '#2f86b9'}}>
+        <nav className="navbar my-3" style={{ backgroundColor: '#2f86b9' }}>
           <div className="container-fluid">
-            <a className="navbar-brand" style = {{color: '#fff'}} href="/">
+            <a className="navbar-brand" style={{ color: '#fff' }} href="/">
               VishwaGuru
             </a>
           </div>
@@ -88,22 +123,48 @@ export default function App() {
                 {message.text}
               </div>
             ))}
+
+            {options.length > 0 && (
+              <div className="option-container show slide-in">
+                <h2>You might want to ask:</h2>
+                {options.map((option, index) => (
+                  <button
+                    key={index}
+                    className="option-button show"
+                    onClick={() => handleOptionClick(option)}
+                  >
+                    {option}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
-          { isBotTyping && 
-          <div className="message bot-message">
-              Typing...
-          </div>
-}
+          {isBotTyping && (
+            <div className="message bot-message">Typing...</div>
+          )}
 
-          <input type="text" id="message-input" placeholder="Type your message..." onKeyDown={handleKeyDown} value={inputMessage} onChange={(e) => setInputMessage(e.target.value)} />
-          <button style={{ backgroundColor: 'green', color: 'white' }} className="my-2" id="send-button" onClick={handleChat}> Send  </button>
-      
+          <input
+            type="text"
+            id="message-input"
+            placeholder="Type your message..."
+            onKeyDown={handleKeyDown}
+            value={inputMessage}
+            onChange={(e) => setInputMessage(e.target.value)}
+          />
+          <button
+            style={{ backgroundColor: 'green', color: 'white' }}
+            className="my-2"
+            id="send-button"
+            onClick={handleChat}
+          >
+            Send
+          </button>
         </div>
 
         <br />
-        <button className="closeBOT" onClick={toggleBOT} >
-        ❌
+        <button className="closeBOT" onClick={toggleBOT}>
+          ❌
         </button>
       </div>
 
