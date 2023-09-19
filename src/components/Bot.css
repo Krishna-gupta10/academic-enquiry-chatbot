@@ -62,11 +62,6 @@ input[type="text"] {
     border: 1px solid black;
 }
 
-.showBOT {
-    padding: 5px 10px;
-    border: none;
-    cursor: pointer;
-}
 
 .closeBOT {
     padding: 5px 10px;
@@ -77,3 +72,31 @@ input[type="text"] {
     top: 10px;
     right: 10px;
 }
+
+/* Styling for the button */
+.showBOT {
+    position: fixed;
+    bottom: 50px; /* Adjust as needed for the desired vertical position */
+    right: 60px; /* Adjust as needed for the desired horizontal position */
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    z-index: 999;
+}
+
+
+.popup-message {
+    position: fixed;
+    bottom: 100px; 
+    background-color: #333;
+    color: #fff;
+    right: 40px; 
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    z-index: 999;
+}
+

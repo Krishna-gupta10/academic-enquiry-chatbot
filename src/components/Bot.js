@@ -6,6 +6,7 @@ export default function App() {
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
   const [isBotTyping, setIsBotTyping] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
   const audio = useRef(null);
 
   useEffect(() => {
@@ -14,6 +15,15 @@ export default function App() {
       { text: 'Feel free to ask me anything about Vishwakarma Institute of Technology.', sender: 'bot' },
     ]);
   }, []);
+
+  window.onload = function() {
+    console.log("Website has been loaded or reloaded.");
+    setTimeout(() => {
+      setShowPopup(true);
+    }, 2000);
+    
+};
+
 
   const toggleBOT = () => {
     let blur = document.getElementById('blur');
@@ -46,13 +56,15 @@ export default function App() {
         })
         .catch((error) => {
           console.error("Error:", error);
-        
+
         })
-        .finally(()=> {
+        .finally(() => {
           setIsBotTyping(false);
         });
     }
   };
+
+  
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
@@ -65,14 +77,20 @@ export default function App() {
       <div className="container" id="blur">
         <br />
         <button className="showBOT" onClick={toggleBOT}>
-          iShowBot
+          VishwaGuru
         </button>
       </div>
 
+      {showPopup && (
+            <span className="popup-message">
+              <div className="popup-text">Hello, please click me for assistance!</div>
+            </span>
+          )}
+
       <div id="chatbot">
-        <nav className="navbar my-3" style= {{backgroundColor: '#2f86b9'}}>
+        <nav className="navbar my-3" style={{ backgroundColor: '#2f86b9' }}>
           <div className="container-fluid">
-            <a className="navbar-brand" style = {{color: '#fff'}} href="/">
+            <a className="navbar-brand" style={{ color: '#fff' }} href="/">
               VishwaGuru
             </a>
           </div>
@@ -90,21 +108,22 @@ export default function App() {
             ))}
           </div>
 
-          { isBotTyping && 
-          <div className="message bot-message">
+          {isBotTyping &&
+            <div className="message bot-message">
               Typing...
-          </div>
-}
+            </div>
+          }
 
           <input type="text" id="message-input" placeholder="Type your message..." onKeyDown={handleKeyDown} value={inputMessage} onChange={(e) => setInputMessage(e.target.value)} />
           <button style={{ backgroundColor: 'green', color: 'white' }} className="my-2" id="send-button" onClick={handleChat}> Send  </button>
-      
+
         </div>
 
         <br />
         <button className="closeBOT" onClick={toggleBOT} >
-        ❌
+          ❌
         </button>
+        
       </div>
 
       <audio ref={audio} src={messageSound} preload="auto" />
