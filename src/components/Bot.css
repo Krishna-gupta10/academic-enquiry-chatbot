@@ -1,5 +1,5 @@
 #blur.active {
-    filter: blur(20px);
+    filter: blur(100px);
     pointer-events: none;
     user-select: none;
 }
@@ -57,7 +57,7 @@
 }
 
 input[type="text"] {
-    width: 100%;
+    width: 90%;
     padding: 5px;
     border: 1px solid black;
 }
@@ -73,11 +73,11 @@ input[type="text"] {
     right: 10px;
 }
 
-/* Styling for the button */
+
 .showBOT {
     position: fixed;
-    bottom: 50px; /* Adjust as needed for the desired vertical position */
-    right: 60px; /* Adjust as needed for the desired horizontal position */
+    bottom: 50px;
+    right: 60px;
     padding: 5px 10px;
     background-color: #007bff;
     color: #fff;
@@ -90,13 +90,45 @@ input[type="text"] {
 
 .popup-message {
     position: fixed;
-    bottom: 100px; 
-    background-color: #333;
-    color: #fff;
-    right: 40px; 
-    padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
-    z-index: 999;
+    bottom: 85px;
+    right: 40px;
 }
 
+
+.option-container {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.option-button {
+    display: block;
+    margin: 5px 0;
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.option-button:hover {
+    background-color: #0056b3;
+}
+
+.option-container.slide-in {
+    animation: slideIn 0.5s forwards;
+}
+
+@keyframes slideIn {
+    0% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

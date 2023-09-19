@@ -2,12 +2,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import './Bot.css';
 import messageSound from './message.mp3';
 
+
 export default function App() {
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
   const [isBotTyping, setIsBotTyping] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+  const [options, setOptions] = useState([]);
   const audio = useRef(null);
+
 
   useEffect(() => {
     setMessages([
@@ -16,16 +19,18 @@ export default function App() {
     ]);
   }, []);
 
-  window.onload = function() {
+  window.onload = function () {
     console.log("Website has been loaded or reloaded.");
     setTimeout(() => {
       setShowPopup(true);
     }, 2000);
-    
-};
+
+  };
 
 
   const toggleBOT = () => {
+    setShowPopup(false);
+
     let blur = document.getElementById('blur');
     blur.classList.toggle('active');
 
@@ -46,13 +51,17 @@ export default function App() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ query: inputMessage }),
+        body: JSON.stringify({ query: inputMessage, selected_option: null }),
       })
         .then((response) => response.json())
         .then((data) => {
           audio.current.play();
           const botMessage = { text: data.response, sender: 'bot' };
           setMessages((prevMessages) => [...prevMessages, botMessage]);
+
+          if (data.options) {
+            setOptions(data.options);
+          }
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -64,7 +73,36 @@ export default function App() {
     }
   };
 
-  
+  const handleOptionClick = (option) => {
+    const botMessage = { text: option, sender: 'user' };
+    setMessages((prevMessages) => [...prevMessages, botMessage]);
+
+    setIsBotTyping(true);
+
+    fetch("http://localhost:5000/chatbot", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ query: option, selected_option: option }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        audio.current.play();
+        const botMessage = { text: data.response, sender: 'bot' };
+        setMessages((prevMessages) => [...prevMessages, botMessage]);
+
+        if (data.options) {
+          setOptions(data.options);
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      })
+      .finally(() => {
+        setIsBotTyping(false);
+      });
+  };
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
@@ -76,16 +114,19 @@ export default function App() {
     <>
       <div className="container" id="blur">
         <br />
-        <button className="showBOT" onClick={toggleBOT}>
+        <button className="showBOT btn-lg" onClick={toggleBOT}>
           VishwaGuru
         </button>
       </div>
 
       {showPopup && (
-            <span className="popup-message">
-              <div className="popup-text">Hello, please click me for assistance!</div>
-            </span>
-          )}
+        <div className="alert alert-primary alert-dismissible fade show popup-message" role="alert">
+          <div className="popup-text">
+            Hey there! Maybe I can help you?
+          </div>
+          <button type="button-sm" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      )}
 
       <div id="chatbot">
         <nav className="navbar my-3" style={{ backgroundColor: '#2f86b9' }}>
@@ -106,7 +147,23 @@ export default function App() {
                 {message.text}
               </div>
             ))}
+
+            {options.length > 0 && (
+              <div className="option-container show slide-in">
+                {options.map((option, index) => (
+                  <button
+                    key={index}
+                    className="option-button show"
+                    onClick={() => handleOptionClick(option)}
+                  >
+                    {option}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
+
+
 
           {isBotTyping &&
             <div className="message bot-message">
@@ -115,7 +172,7 @@ export default function App() {
           }
 
           <input type="text" id="message-input" placeholder="Type your message..." onKeyDown={handleKeyDown} value={inputMessage} onChange={(e) => setInputMessage(e.target.value)} />
-          <button style={{ backgroundColor: 'green', color: 'white' }} className="my-2" id="send-button" onClick={handleChat}> Send  </button>
+          <button className="mx-2" style={{ backgroundColor: 'white', border: 'none' }} id="send-button" onClick={handleChat}> <i className="fa fa-paper-plane-o" aria-hidden="true"></i>  </button>
 
         </div>
 
@@ -123,7 +180,7 @@ export default function App() {
         <button className="closeBOT" onClick={toggleBOT} >
           ❌
         </button>
-        
+
       </div>
 
       <audio ref={audio} src={messageSound} preload="auto" />
