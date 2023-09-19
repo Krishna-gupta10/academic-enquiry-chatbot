@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Bot.css';
 import messageSound from './message.mp3';
+import vishwaguruImage from './botimg.jpg';
 
 export default function App() {
   const [messages, setMessages] = useState([]);
@@ -107,8 +108,15 @@ export default function App() {
       <div id="chatbot">
         <nav className="navbar my-3" style={{ backgroundColor: '#2f86b9' }}>
           <div className="container-fluid">
-            <a className="navbar-brand" style={{ color: '#fff' }} href="/">
-              VishwaGuru
+            <a className="navbar-brand" href="/">
+              <span style={{ display: 'flex', alignItems: 'center' }}>
+                <img
+                  src={vishwaguruImage}
+                  alt="VishwaGuru"
+                  style={{ height: '40px', width: 'auto', marginRight: '10px' }}
+                />
+                VishwaGuru
+              </span>
             </a>
           </div>
         </nav>
@@ -126,7 +134,6 @@ export default function App() {
 
             {options.length > 0 && (
               <div className="option-container show slide-in">
-                <h2>You might want to ask:</h2>
                 {options.map((option, index) => (
                   <button
                     key={index}
@@ -152,19 +159,13 @@ export default function App() {
             value={inputMessage}
             onChange={(e) => setInputMessage(e.target.value)}
           />
-          <button
-            style={{ backgroundColor: 'green', color: 'white' }}
-            className="my-2"
-            id="send-button"
-            onClick={handleChat}
-          >
-            Send
+          <button style={{ backgroundColor: 'white', color: 'blue' }} className="mx-2" id="send-button" onClick={handleChat}> <i class="fa fa-send-o"></i>  
           </button>
         </div>
 
         <br />
         <button className="closeBOT" onClick={toggleBOT}>
-          ❌
+        <button type="button" class="btn-close" aria-label="Close"></button>
         </button>
       </div>
 
