@@ -131,8 +131,8 @@ export default function App() {
       <div id="chatbot">
         <nav className="navbar my-3" style={{ backgroundColor: '#2f86b9' }}>
           <div className="container-fluid">
-            <a className="navbar-brand" style={{ color: '#fff' }} href="/">
-              VishwaGuru
+            <a className="navbar-brand" style={{ color: '#fff' }}>
+              <i class="fa fa-android" aria-hidden="true"></i> VishwaGuru
             </a>
           </div>
         </nav>
@@ -163,8 +163,6 @@ export default function App() {
             )}
           </div>
 
-
-
           {isBotTyping &&
             <div className="message bot-message">
               Typing...
@@ -172,7 +170,7 @@ export default function App() {
           }
 
           <input type="text" id="message-input" placeholder="Type your message..." onKeyDown={handleKeyDown} value={inputMessage} onChange={(e) => setInputMessage(e.target.value)} />
-          <button className="mx-2" style={{ backgroundColor: 'white', border: 'none' }} id="send-button" onClick={handleChat}> <i className="fa fa-paper-plane-o" aria-hidden="true"></i>  </button>
+          <button className="mx-2 send-button" id="send-button" onClick={handleChat}> <i className="fa fa-paper-plane-o" aria-hidden="true"></i>  </button>
 
         </div>
 
