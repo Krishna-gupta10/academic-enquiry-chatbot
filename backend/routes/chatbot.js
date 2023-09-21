@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const { body, validationResult } = require('express-validator');
 const { spawn } = require('child_process');
+const User = require('../models/User');
 
 
-router.post('/chatbot', async (req, res) => {
+router.post('/chat', async (req, res) => {
   const userQuery = req.body.query;
 
   if (!userQuery || userQuery.trim().length === 0) {
@@ -48,4 +50,24 @@ router.post('/chatbot', async (req, res) => {
 
 });
 
+router.post('/userdetails', [
+  body('name').isLength({ min: 5 }),
+  body('email').isEmail(),
+], async (req, res) => {
+
+  let user = await User.findOne({ email: req.body.email });
+  if (user) {
+      return res.status(400).json("A User with this email address already exists!");
+  }
+
+  user = await User.create({
+      name: req.body.name,
+      email: req.body.email,
+  }).then(()=> {
+    res.json('Thankyou For Your Details!');
+  });
+});
+
 module.exports = router;
+
+

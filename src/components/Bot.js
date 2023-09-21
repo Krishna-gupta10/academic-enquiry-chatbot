@@ -74,8 +74,8 @@ export default function App() {
   };
 
   const handleOptionClick = (option) => {
-    const botMessage = { text: option, sender: 'user' };
-    setMessages((prevMessages) => [...prevMessages, botMessage]);
+    const userMessage = { text: option, sender: 'user' };
+    setMessages((prevMessages) => [...prevMessages, userMessage]);
 
     setIsBotTyping(true);
 
@@ -149,11 +149,11 @@ export default function App() {
             ))}
 
             {options.length > 0 && (
-              <div className="option-container show slide-in">
+              <div>
                 {options.map((option, index) => (
                   <button
                     key={index}
-                    className="option-button show"
+                    className={`chat-options`}
                     onClick={() => handleOptionClick(option)}
                   >
                     {option}
