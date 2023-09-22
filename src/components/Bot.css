@@ -31,7 +31,7 @@
 .chat-messages {
     padding: 10px;
     margin-bottom: 10px;
-    height: 300px;
+    height: 350px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
@@ -70,9 +70,10 @@
     flex-direction: column;
     align-items: flex-end;
     margin-right: 10px;
+    margin-top: auto;
 }
 
-.input-details[type="text"]{
+.input-details[type="text"] {
     align-self: flex-end;
     width: 40%;
     padding: 5px;
@@ -82,7 +83,7 @@
 }
 
 .input-details[type="email"] {
-    align-self: flex-end;   
+    align-self: flex-end;
     width: 60%;
     padding: 5px;
     border: 1px solid black;
@@ -129,54 +130,15 @@ input[type="text"] {
     right: 40px;
 }
 
-
-
-/* .option-container {
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin-top: 10px;
-}
-
-.option-button {
-    display: block;
-    margin: 5px 0;
-    padding: 8px 12px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.option-button:hover {
-    background-color: #0056b3;
-}
-
-.option-container.slide-in {
-    animation: slideIn 0.5s forwards;
-}
-
-@keyframes slideIn {
-    0% {
-        transform: translateY(100%);
-        opacity: 0;
-    }
-
-    100% {
-        transform: translateY(0);
-        opacity: 1;
-    }
-} */
 .send-button {
     height: 33px;
     width: 33px;
     border-radius: 5px;
     background-color: #2f86b9;
     color: white;
-    border: none; 
+    border: none;
 }
 
-.send-button:hover{
+.send-button:hover {
     background-color: #0056b3;
 }

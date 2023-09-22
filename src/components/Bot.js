@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import './Bot.css';
 import messageSound from './message.mp3';
 
-
 export default function App() {
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
@@ -11,21 +10,18 @@ export default function App() {
   const [options, setOptions] = useState([]);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [userData, setuserData] = useState(false);
+  const [userData, setUserData] = useState(false); 
   const audio = useRef(null);
-
 
   useEffect(() => {
     setMessages([
       { text: "Hello, I am VishwaGuru!", sender: 'bot' },
-      { text: 'Feel free to ask me anything about Vishwakarma Institute of Technology.', sender: 'bot' },
-      { text: 'Let us get started with your Name and Email', sender: 'bot' },
+      { text: 'Let us get started with your Name and Email! It helps me to remember you :)', sender: 'bot' },
     ]);
 
-    // Add a delay before showing the name and email inputs
     setTimeout(() => {
-      setuserData(true);
-    }, 2000);
+      setUserData(true);
+    }, 100);
   }, []);
 
 
@@ -45,6 +41,46 @@ export default function App() {
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
+
+  const handleUserDetails = () => {
+    if (name.trim() === '' || email.trim() === '') {
+      console.error("Name and email are required.");
+      return;
+    }
+
+    fetch("http://localhost:5000/api/chatbot/userdetails", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: name,
+        email: email,
+      }),
+    })
+      .then((response) => {
+        if (response.status === 201) {
+          console.log("User details saved successfully");
+
+          const botMessage = {
+            text: `Thanks for the information, ${name}. Please feel free to ask me about VIIT.`,
+            sender: 'bot',
+          };
+          setMessages((prevMessages) => [...prevMessages, botMessage]);
+          setUserData(false);
+        } else if (response.status === 400) {
+          console.error("Failed to save user details. A user with this email already exists.");
+        } else {
+          console.error("Failed to save user details. Server responded with status:", response.status);
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
+
+
 
   const toggleBOT = () => {
     setShowPopup(false);
@@ -74,7 +110,7 @@ export default function App() {
         .then((response) => response.json())
         .then((data) => {
           audio.current.play();
-          const botMessage = { text: data.response, sender: 'bot' };
+          const botMessage = { text: `Dear ${name}, ${data.response}`, sender: 'bot' };
           setMessages((prevMessages) => [...prevMessages, botMessage]);
 
           if (data.options) {
@@ -107,7 +143,7 @@ export default function App() {
       .then((response) => response.json())
       .then((data) => {
         audio.current.play();
-        const botMessage = { text: data.response, sender: 'bot' };
+        const botMessage = { text: `Dear ${name}, ${data.response}`, sender: 'bot' };
         setMessages((prevMessages) => [...prevMessages, botMessage]);
 
         if (data.options) {
@@ -122,9 +158,15 @@ export default function App() {
       });
   };
 
-  const handleKeyDown = (event) => {
+  const handleKeyDown1 = (event) => {
     if (event.key === 'Enter') {
       handleChat();
+    }
+  };
+
+  const handleKeyDown2 = (event) => {
+    if (event.key === 'Enter') {
+      handleUserDetails();
     }
   };
 
@@ -150,7 +192,7 @@ export default function App() {
         <nav className="navbar my-3" style={{ backgroundColor: '#2f86b9' }}>
           <div className="container-fluid">
             <a className="navbar-brand" style={{ color: '#fff' }} href="/">
-              <i class="fa fa-android" aria-hidden="true"></i> VishwaGuru
+              <i className="fa fa-android" aria-hidden="true"></i> VishwaGuru
             </a>
           </div>
         </nav>
@@ -166,26 +208,27 @@ export default function App() {
               </div>
             ))}
 
-            {setuserData && (
-              <>
-                <div className="input-container">
-
-                  <input className="input-details"
-                    type="text"
-                    placeholder="Your Name"
-                    value={name}
-                    onChange={handleNameChange}
-                  />
-
-                  <input className="input-details"
-                    type="email"
-                    placeholder="Your Email"
-                    value={email}
-                    onChange={handleEmailChange}
-                  />
-
-                </div>
-              </>
+            {userData && (
+              <div className="input-container">
+                <input
+                  className="input-details"
+                  type="text" 
+                  placeholder="Your Name"
+                  value={name}
+                  onChange={handleNameChange}
+                />
+                <input
+                  className="input-details"
+                  type="email"
+                  placeholder="Your Email"
+                  value={email}
+                  onChange={handleEmailChange}
+                  onKeyDown={handleKeyDown2}
+                />
+                <button className="btn-sm btn-primary" id="send-button" onClick={handleUserDetails}>
+                  Submit
+                </button>
+              </div>
             )}
 
             {options.length > 0 && (
@@ -203,24 +246,24 @@ export default function App() {
             )}
           </div>
 
-          {isBotTyping &&
-            <div className="message bot-message">
-              Typing...
-            </div>
-          }
-
-          {!setuserData &&
-            <input type="text" id="message-input" placeholder="Type your message..." onKeyDown={handleKeyDown} value={inputMessage} onChange={(e) => setInputMessage(e.target.value)} />
-          }
-          <button className="mx-2 send-button" id="send-button" onClick={handleChat}> <i className="fa fa-paper-plane-o" aria-hidden="true"></i>  </button>
-
+          {isBotTyping && (
+            <div className="message bot-message">Typing...</div>
+          )}
         </div>
 
+        {!userData && (
+
+          <div className="message-input">
+            <input type="text" id="message-input" placeholder="Type your message..." onKeyDown={handleKeyDown1} value={inputMessage} onChange={(e) => setInputMessage(e.target.value)} />
+            <button className="mx-2 send-button" id="send-button" onClick={handleChat}> <i className="fa fa-paper-plane-o" aria-hidden="true"></i>  </button>
+          </div>
+
+        )}
+
         <br />
-        <button className="closeBOT" onClick={toggleBOT} >
+        <button className="closeBOT" onClick={toggleBOT}>
           ❌
         </button>
-
       </div>
 
       <audio ref={audio} src={messageSound} preload="auto" />
