@@ -25,16 +25,17 @@
 
 .chat-container {
     width: 500px;
-    scroll-behavior: auto;
+    height: auto;
+    scroll-behavior: smooth;
 }
 
 .chat-messages {
-    padding: 10px;
-    margin-bottom: 10px;
     height: 350px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
+    padding: 10px;
+    margin-bottom: 10px;
 }
 
 .message {
@@ -51,18 +52,19 @@
 }
 
 .other-message {
-    background-color: #f0f0f0;
+    background-color: #E0E0E0;
     color: #333;
     align-self: flex-start;
 }
 
 .chat-options {
-    background-color: #f0f0f0;
+    background-color: #E0E0E0;
     color: #333;
     align-self: flex-start;
     border-radius: 8px;
     border: 1px solid #2f86b9;
     margin-bottom: 5px;
+    margin-top: 1px;
 }
 
 .input-container {
@@ -109,20 +111,16 @@ input[type="text"] {
     right: 10px;
 }
 
-
-.showBOT {
+img {
     position: fixed;
-    bottom: 50px;
+    bottom: 30px;
     right: 60px;
-    padding: 5px 10px;
-    background-color: #007bff;
-    color: #fff;
+    height: 65px;
     border: none;
     cursor: pointer;
     border-radius: 5px;
     z-index: 999;
 }
-
 
 .popup-message {
     position: fixed;

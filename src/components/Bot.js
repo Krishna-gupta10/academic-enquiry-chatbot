@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Bot.css';
 import messageSound from './message.mp3';
+import logo from './chatbot.png';
 
 export default function App() {
   const [messages, setMessages] = useState([]);
@@ -10,8 +11,9 @@ export default function App() {
   const [options, setOptions] = useState([]);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [userData, setUserData] = useState(false); 
+  const [userData, setUserData] = useState(false);
   const audio = useRef(null);
+  const chatMessagesRef = useRef(null);
 
   useEffect(() => {
     setMessages([
@@ -24,13 +26,22 @@ export default function App() {
     }, 100);
   }, []);
 
+  useEffect(() => {
+    scrollChatToBottom();
+  }, [messages]);
 
+  const scrollChatToBottom = () => {
+    if (chatMessagesRef.current) {
+      chatMessagesRef.current.scrollTop = chatMessagesRef.current.scrollHeight;
+    }
+  };
 
+  let popupTimeout;
   window.onload = function () {
     console.log("Website has been loaded or reloaded.");
-    setTimeout(() => {
+    popupTimeout = setTimeout(() => {
       setShowPopup(true);
-    }, 2000);
+    }, 500);
 
   };
 
@@ -79,10 +90,8 @@ export default function App() {
       });
   };
 
-
-
-
   const toggleBOT = () => {
+    clearTimeout(popupTimeout);
     setShowPopup(false);
 
     let blur = document.getElementById('blur');
@@ -91,6 +100,7 @@ export default function App() {
     let chatbot = document.getElementById('chatbot');
     chatbot.classList.toggle('active');
   };
+
 
   const handleChat = () => {
     if (inputMessage.trim() !== '') {
@@ -174,17 +184,14 @@ export default function App() {
     <>
       <div className="container" id="blur">
         <br />
-        <button className="showBOT btn-lg" onClick={toggleBOT}>
-          VishwaGuru
-        </button>
+        <img src = {logo} onClick={toggleBOT} className= "showBOT-logo" alt="Click Here"></img>
       </div>
 
       {showPopup && (
-        <div className="alert alert-primary alert-dismissible fade show popup-message" role="alert">
+        <div className="alert alert-primary popup-message" role="alert">
           <div className="popup-text">
             Hey there! Maybe I can help you?
           </div>
-          <button type="button-sm" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
       )}
 
@@ -198,7 +205,7 @@ export default function App() {
         </nav>
 
         <div className="chat-container">
-          <div className="chat-messages" id="chat-messages">
+          <div className="chat-messages" id="chat-messages" ref={chatMessagesRef}>
             {messages.map((message, index) => (
               <div
                 key={index}
@@ -212,7 +219,7 @@ export default function App() {
               <div className="input-container">
                 <input
                   className="input-details"
-                  type="text" 
+                  type="text"
                   placeholder="Your Name"
                   value={name}
                   onChange={handleNameChange}
@@ -231,8 +238,9 @@ export default function App() {
               </div>
             )}
 
-            {options.length > 0 && (
+            {!isBotTyping && options.length > 0 && (
               <div>
+                Suggestions: <br />
                 {options.map((option, index) => (
                   <button
                     key={index}
@@ -253,7 +261,7 @@ export default function App() {
 
         {!userData && (
 
-          <div className="message-input">
+          <div className="my-1 message-input">
             <input type="text" id="message-input" placeholder="Type your message..." onKeyDown={handleKeyDown1} value={inputMessage} onChange={(e) => setInputMessage(e.target.value)} />
             <button className="mx-2 send-button" id="send-button" onClick={handleChat}> <i className="fa fa-paper-plane-o" aria-hidden="true"></i>  </button>
           </div>
