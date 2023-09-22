@@ -65,6 +65,31 @@
     margin-bottom: 5px;
 }
 
+.input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-right: 10px;
+}
+
+.input-details[type="text"]{
+    align-self: flex-end;
+    width: 40%;
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 10px;
+    margin-bottom: 5px;
+}
+
+.input-details[type="email"] {
+    align-self: flex-end;   
+    width: 60%;
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 10px;
+    margin-bottom: 5px;
+}
+
 input[type="text"] {
     width: 90%;
     padding: 5px;

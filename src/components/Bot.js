@@ -9,6 +9,9 @@ export default function App() {
   const [isBotTyping, setIsBotTyping] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [options, setOptions] = useState([]);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [userData, setuserData] = useState(false);
   const audio = useRef(null);
 
 
@@ -16,8 +19,16 @@ export default function App() {
     setMessages([
       { text: "Hello, I am VishwaGuru!", sender: 'bot' },
       { text: 'Feel free to ask me anything about Vishwakarma Institute of Technology.', sender: 'bot' },
+      { text: 'Let us get started with your Name and Email', sender: 'bot' },
     ]);
+
+    // Add a delay before showing the name and email inputs
+    setTimeout(() => {
+      setuserData(true);
+    }, 2000);
   }, []);
+
+
 
   window.onload = function () {
     console.log("Website has been loaded or reloaded.");
@@ -27,6 +38,13 @@ export default function App() {
 
   };
 
+  const handleNameChange = (e) => {
+    setName(e.target.value);
+  };
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
 
   const toggleBOT = () => {
     setShowPopup(false);
@@ -46,7 +64,7 @@ export default function App() {
 
       setIsBotTyping(true);
 
-      fetch("http://localhost:5000/chatbot", {
+      fetch("http://localhost:5000/api/chatbot/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -79,7 +97,7 @@ export default function App() {
 
     setIsBotTyping(true);
 
-    fetch("http://localhost:5000/chatbot", {
+    fetch("http://localhost:5000/api/chatbot/chat", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -131,7 +149,7 @@ export default function App() {
       <div id="chatbot">
         <nav className="navbar my-3" style={{ backgroundColor: '#2f86b9' }}>
           <div className="container-fluid">
-            <a className="navbar-brand" style={{ color: '#fff' }}>
+            <a className="navbar-brand" style={{ color: '#fff' }} href="/">
               <i class="fa fa-android" aria-hidden="true"></i> VishwaGuru
             </a>
           </div>
@@ -147,6 +165,28 @@ export default function App() {
                 {message.text}
               </div>
             ))}
+
+            {setuserData && (
+              <>
+                <div className="input-container">
+
+                  <input className="input-details"
+                    type="text"
+                    placeholder="Your Name"
+                    value={name}
+                    onChange={handleNameChange}
+                  />
+
+                  <input className="input-details"
+                    type="email"
+                    placeholder="Your Email"
+                    value={email}
+                    onChange={handleEmailChange}
+                  />
+
+                </div>
+              </>
+            )}
 
             {options.length > 0 && (
               <div>
@@ -169,7 +209,9 @@ export default function App() {
             </div>
           }
 
-          <input type="text" id="message-input" placeholder="Type your message..." onKeyDown={handleKeyDown} value={inputMessage} onChange={(e) => setInputMessage(e.target.value)} />
+          {!setuserData &&
+            <input type="text" id="message-input" placeholder="Type your message..." onKeyDown={handleKeyDown} value={inputMessage} onChange={(e) => setInputMessage(e.target.value)} />
+          }
           <button className="mx-2 send-button" id="send-button" onClick={handleChat}> <i className="fa fa-paper-plane-o" aria-hidden="true"></i>  </button>
 
         </div>

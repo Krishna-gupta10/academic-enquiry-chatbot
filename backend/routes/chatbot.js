@@ -54,18 +54,28 @@ router.post('/userdetails', [
   body('name').isLength({ min: 5 }),
   body('email').isEmail(),
 ], async (req, res) => {
+  // Extract name and email from the request body
+  const { name, email } = req.body;
 
-  let user = await User.findOne({ email: req.body.email });
-  if (user) {
+  try {
+    // Check if a user with the same email already exists
+    let user = await User.findOne({ email });
+    if (user) {
       return res.status(400).json("A User with this email address already exists!");
-  }
+    }
 
-  user = await User.create({
-      name: req.body.name,
-      email: req.body.email,
-  }).then(()=> {
-    res.json('Thankyou For Your Details!');
-  });
+    // Create a new user document
+    user = await User.create({
+      name,
+      email,
+    });
+
+    // Respond with a success message
+    res.status(201).json('Thank you for providing your details!');
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ error: 'Internal server error.' });
+  }
 });
 
 module.exports = router;

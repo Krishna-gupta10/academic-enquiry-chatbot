@@ -13,7 +13,6 @@ app.use(bodyParser.json());
 
 // Routes
 app.use('/api/chatbot', require('./routes/chatbot.js'));
-
 app.listen(port, () => {
   console.log(`ChatBot Server is running on port ${port}`);
 });
