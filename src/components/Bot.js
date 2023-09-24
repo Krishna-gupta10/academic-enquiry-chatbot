@@ -12,6 +12,7 @@ export default function App() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [userData, setUserData] = useState(false);
+  const [showExitModal, setShowExitModal] = useState(false);
   const audio = useRef(null);
   const chatMessagesRef = useRef(null);
 
@@ -101,7 +102,6 @@ export default function App() {
     chatbot.classList.toggle('active');
   };
 
-
   const handleChat = () => {
     if (inputMessage.trim() !== '') {
       const userMessage = { text: inputMessage, sender: 'user' };
@@ -129,7 +129,6 @@ export default function App() {
         })
         .catch((error) => {
           console.error("Error:", error);
-
         })
         .finally(() => {
           setIsBotTyping(false);
@@ -180,11 +179,50 @@ export default function App() {
     }
   };
 
+  const handleToggleExitModal = () => {
+    if (messages.length === 2) {
+      setMessages([
+        { text: "Hello, I am VishwaGuru!", sender: 'bot' },
+        { text: 'Let us get started with your Name and Email! It helps me to remember you :)', sender: 'bot' },
+      ]);
+      setInputMessage('');
+      setName('');
+      setEmail('');
+      setUserData(true);
+      setShowExitModal(false);
+      setOptions([]); 
+      const blur = document.getElementById('blur');
+      blur.classList.remove('active');
+      const chatbot = document.getElementById('chatbot');
+      chatbot.classList.remove('active');
+    } else {
+      setShowExitModal(true);
+    }
+  };
+
+  const handleExitYes = () => {
+    setMessages([
+      { text: "Hello, I am VishwaGuru!", sender: 'bot' },
+      { text: 'Let us get started with your Name and Email! It helps me to remember you :)', sender: 'bot' },
+    ]);
+    setInputMessage('');
+    setName('');
+    setEmail('');
+    setUserData(true);
+    setShowExitModal(false);
+    setOptions([]); 
+    const blur = document.getElementById('blur');
+    blur.classList.remove('active');
+    const chatbot = document.getElementById('chatbot');
+    chatbot.classList.remove('active');
+    setShowExitModal(false);
+  };
+
   return (
     <>
       <div className="container" id="blur">
         <br />
-        <img src = {logo} onClick={toggleBOT} className= "showBOT-logo" alt="Click Here"></img>
+        <img src={logo} onClick={toggleBOT} className="showBOT-logo" alt="Click Here"></img>
       </div>
 
       {showPopup && (
@@ -269,12 +307,26 @@ export default function App() {
         )}
 
         <br />
-        <button className="closeBOT" onClick={toggleBOT}>
+        <button className="closeBOT" onClick={handleToggleExitModal}>
           ❌
         </button>
       </div>
 
       <audio ref={audio} src={messageSound} preload="auto" />
+
+      {showExitModal && (
+        <div className="exit-modal">
+          <div className="exit-modal-content">
+            <div className="exit-modal-header">
+              <h4>Are you sure you want to exit?Your chat won't be stored.</h4>
+            </div>
+            <div className="exit-modal-footer">
+              <button onClick={handleExitYes} className="exit-yes-button">Yes</button>
+              <button onClick={() => setShowExitModal(false)} className="exit-no-button">No</button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
