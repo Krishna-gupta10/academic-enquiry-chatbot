@@ -193,3 +193,21 @@ img {
     background-color: #e74c3c;
     color: #fff;
   }
+
+.speech-button {
+    background-color: #2f86b9;
+    border: none;
+    border-radius: 50%;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 8px 12px;
+}
+
+.speech-button:hover {
+    background-color: #1c6a8c;
+}
+
+.speech-button:focus {
+    outline: none;
+}

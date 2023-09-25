@@ -46,6 +46,31 @@ export default function App() {
 
   };
 
+  const startSpeechRecognition = () => {
+    if (!window.SpeechRecognition && !window.webkitSpeechRecognition) {
+      alert("Speech recognition is not supported in this browser.");
+      return;
+    }
+
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+
+    recognition.onstart = () => {
+      console.log('Speech recognition started');
+    };
+
+    recognition.onend = () => {
+      console.log('Speech recognition ended');
+    };
+
+    recognition.onresult = (event) => {
+      const speechResult = event.results[0][0].transcript;
+      setInputMessage(speechResult);
+      handleChat();
+    };
+
+    recognition.start();
+  };
+
   const handleNameChange = (e) => {
     setName(e.target.value);
   };
@@ -290,26 +315,25 @@ export default function App() {
                 ))}
               </div>
             )}
+
+            {isBotTyping && (
+              <div className="message bot-message">Typing...</div>
+            )}
           </div>
 
-          {isBotTyping && (
-            <div className="message bot-message">Typing...</div>
+          {!userData && (
+            <div className="my-1 message-input">
+              <input type="text" id="message-input" placeholder="Type your message..." onKeyDown={handleKeyDown1} value={inputMessage} onChange={(e) => setInputMessage(e.target.value)} />
+              <button className="mx-2 send-button" id="send-button" onClick={handleChat}> <i className="fa fa-paper-plane-o" aria-hidden="true"></i>  </button>
+              <button className="mx-2 speech-button" id="speech-button" onClick={startSpeechRecognition}> <i className="fa fa-microphone" aria-hidden="true"></i> </button>
+            </div>
           )}
+
+          <br />
+          <button className="closeBOT" onClick={handleToggleExitModal}>
+            ❌
+          </button>
         </div>
-
-        {!userData && (
-
-          <div className="my-1 message-input">
-            <input type="text" id="message-input" placeholder="Type your message..." onKeyDown={handleKeyDown1} value={inputMessage} onChange={(e) => setInputMessage(e.target.value)} />
-            <button className="mx-2 send-button" id="send-button" onClick={handleChat}> <i className="fa fa-paper-plane-o" aria-hidden="true"></i>  </button>
-          </div>
-
-        )}
-
-        <br />
-        <button className="closeBOT" onClick={handleToggleExitModal}>
-          ❌
-        </button>
       </div>
 
       <audio ref={audio} src={messageSound} preload="auto" />
