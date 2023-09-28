@@ -6,16 +6,18 @@
 
 #chatbot {
     position: fixed;
-    top: 40%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 600px;
-    padding: 50px;
+    width: 30%;
+    padding: 30px 50px;
+    /* padding-top: ; */
     box-shadow: 0px 5px 30px;
     background: #fff;
     visibility: hidden;
     opacity: 0;
     transition: 0.5s;
+    border-radius: 10px;
 }
 
 #chatbot.active {
@@ -24,18 +26,18 @@
 }
 
 .chat-container {
-    width: 500px;
+    width: 100%;
     height: auto;
     scroll-behavior: smooth;
 }
 
 .chat-messages {
-    height: 350px;
+    height: 400px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
     padding: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 25px;
 }
 
 .message {
@@ -58,13 +60,28 @@
 }
 
 .chat-options {
-    background-color: #E0E0E0;
-    color: #333;
     align-self: flex-start;
-    border-radius: 8px;
-    border: 1px solid #2f86b9;
-    margin-bottom: 5px;
-    margin-top: 1px;
+    display: flex;
+    flex-wrap: wrap;
+    top: 100%;
+    left: 0;
+    /* width: 100%; */
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    cursor: pointer;
+}
+
+.chat-options:hover{
+    background-color: #f5f5f5;
+}
+
+.chat-options-active{
+    background-color: #eee;
 }
 
 .input-container {
@@ -92,20 +109,31 @@
     border-radius: 10px;
     margin-bottom: 5px;
 }
-
+.message-input{
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px 10px;
+    height: auto;
+}
 input[type="text"] {
-    width: 90%;
+    /* width: 80%;
     padding: 5px;
     border: 1px solid black;
-    border-radius: 10px;
-}
+    border-radius: 10px; */
+    flex: 1;
+    font-size: 16px;
+    border: none;
+    outline: none;
+}  
 
 
 .closeBOT {
     padding: 5px 10px;
     border: none;
     cursor: pointer;
-    background-color: #fff;
+    background-color: #2f86b9;
     position: absolute;
     top: 10px;
     right: 10px;
@@ -129,12 +157,19 @@ img {
 }
 
 .send-button {
-    height: 33px;
+    /* height: 33px;
     width: 33px;
     border-radius: 5px;
     background-color: #2f86b9;
     color: white;
+    border: none; */
+    background-color: #007bff;
+    color: white;
     border: none;
+    outline: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
 }
 
 .send-button:hover {
@@ -195,19 +230,31 @@ img {
   }
 
 .speech-button {
-    background-color: #2f86b9;
+    /* background-color: #2f86b9;
     border: none;
     border-radius: 50%;
     color: #fff;
     cursor: pointer;
     font-size: 16px;
-    padding: 8px 12px;
+    padding: 8px 12px; */
+    background-color: #ccc;
+    color: #666;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
 }
 
 .speech-button:hover {
-    background-color: #1c6a8c;
+    background-color: #007bff;
+    color: white;
 }
 
 .speech-button:focus {
     outline: none;
+}
+
+.Options{
+    display: flex;
 }

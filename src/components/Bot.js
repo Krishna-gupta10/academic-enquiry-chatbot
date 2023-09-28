@@ -263,6 +263,9 @@ export default function App() {
           <div className="container-fluid">
             <a className="navbar-brand" style={{ color: '#fff' }} href="/">
               <i className="fa fa-android" aria-hidden="true"></i> VishwaGuru
+              <button className="closeBOT" onClick={handleToggleExitModal}>
+              ❌
+              </button>
             </a>
           </div>
         </nav>
@@ -302,7 +305,7 @@ export default function App() {
             )}
 
             {!isBotTyping && options.length > 0 && (
-              <div>
+              <div className=''>
                 Suggestions: <br />
                 {options.map((option, index) => (
                   <button
@@ -330,9 +333,9 @@ export default function App() {
           )}
 
           <br />
-          <button className="closeBOT" onClick={handleToggleExitModal}>
+          {/* <button className="closeBOT" onClick={handleToggleExitModal}>
             ❌
-          </button>
+          </button> */}
         </div>
       </div>
 
