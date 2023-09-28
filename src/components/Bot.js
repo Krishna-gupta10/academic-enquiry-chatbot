@@ -215,7 +215,7 @@ export default function App() {
       setEmail('');
       setUserData(true);
       setShowExitModal(false);
-      setOptions([]); 
+      setOptions([]);
       const blur = document.getElementById('blur');
       blur.classList.remove('active');
       const chatbot = document.getElementById('chatbot');
@@ -235,7 +235,7 @@ export default function App() {
     setEmail('');
     setUserData(true);
     setShowExitModal(false);
-    setOptions([]); 
+    setOptions([]);
     const blur = document.getElementById('blur');
     blur.classList.remove('active');
     const chatbot = document.getElementById('chatbot');
@@ -264,7 +264,7 @@ export default function App() {
             <a className="navbar-brand" style={{ color: '#fff' }} href="/">
               <i className="fa fa-android" aria-hidden="true"></i> VishwaGuru
               <button className="closeBOT" onClick={handleToggleExitModal}>
-              ❌
+                ❌
               </button>
             </a>
           </div>
@@ -326,9 +326,9 @@ export default function App() {
 
           {!userData && (
             <div className="my-1 message-input">
-              <input type="text" id="message-input" placeholder="Type your message..." onKeyDown={handleKeyDown1} value={inputMessage} onChange={(e) => setInputMessage(e.target.value)} />
-              <button className="mx-2 send-button" id="send-button" onClick={handleChat}> <i className="fa fa-paper-plane-o" aria-hidden="true"></i>  </button>
-              <button className="mx-2 speech-button" id="speech-button" onClick={startSpeechRecognition}> <i className="fa fa-microphone" aria-hidden="true"></i> </button>
+              <input type="text" className="mx-2" id="message-input" placeholder="Type your message..." onKeyDown={handleKeyDown1} value={inputMessage} onChange={(e) => setInputMessage(e.target.value)} />
+              <button className="mx-1 send-button" id="send-button" onClick={handleChat}> <i className="fa fa-paper-plane-o" aria-hidden="true"></i>  </button>
+              <button className="mx-1 speech-button" id="speech-button" onClick={startSpeechRecognition}> <i className="fa fa-microphone" aria-hidden="true"></i> </button>
             </div>
           )}
 

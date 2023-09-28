@@ -109,23 +109,22 @@
     border-radius: 10px;
     margin-bottom: 5px;
 }
+
 .message-input{
     display: flex;
     align-items: center;
-    border: 1px solid #ccc;
     border-radius: 5px;
     padding: 10px 10px;
     height: auto;
 }
+
 input[type="text"] {
-    /* width: 80%;
-    padding: 5px;
+    width: 80%;
+    padding: 10px;
     border: 1px solid black;
-    border-radius: 10px; */
+    border-radius: 7px;
     flex: 1;
     font-size: 16px;
-    border: none;
-    outline: none;
 }  
 
 
@@ -157,14 +156,8 @@ img {
 }
 
 .send-button {
-    /* height: 33px;
-    width: 33px;
-    border-radius: 5px;
-    background-color: #2f86b9;
-    color: white;
-    border: none; */
-    background-color: #007bff;
-    color: white;
+    background-color: #cccccc;
+    color: #666666;
     border: none;
     outline: none;
     border-radius: 5px;
@@ -173,7 +166,8 @@ img {
 }
 
 .send-button:hover {
-    background-color: #0056b3;
+    background-color: #007bff;
+    color: white;
 }
 
 .exit-modal {
