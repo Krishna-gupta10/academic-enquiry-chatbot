@@ -9,9 +9,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 30%;
-    padding: 30px 50px;
-    /* padding-top: ; */
+    width: 35%;
+    padding: 30px 50px; 
     box-shadow: 0px 5px 30px;
     background: #fff;
     visibility: hidden;
@@ -65,7 +64,6 @@
     flex-wrap: wrap;
     top: 100%;
     left: 0;
-    /* width: 100%; */
     max-height: 200px;
     overflow-y: auto;
     background-color: white;
@@ -76,11 +74,11 @@
     cursor: pointer;
 }
 
-.chat-options:hover{
+.chat-options:hover {
     background-color: #f5f5f5;
 }
 
-.chat-options-active{
+.chat-options-active {
     background-color: #eee;
 }
 
@@ -110,7 +108,7 @@
     margin-bottom: 5px;
 }
 
-.message-input{
+.message-input {
     display: flex;
     align-items: center;
     border-radius: 5px;
@@ -125,7 +123,7 @@ input[type="text"] {
     border-radius: 7px;
     flex: 1;
     font-size: 16px;
-}  
+}
 
 
 .closeBOT {
@@ -183,54 +181,48 @@ img {
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  
-  .exit-modal-content {
+}
+
+.exit-modal-content {
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
     max-width: 400px;
     text-align: center;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .exit-modal h5 {
+}
+
+.exit-modal h5 {
     margin-bottom: 10px;
     font-size: 1.2rem;
-  }
-  
-  .exit-modal-footer {
+}
+
+.exit-modal-footer {
     display: flex;
     justify-content: center;
-  }
-  
-  .exit-yes-button, .exit-no-button {
+}
+
+.exit-yes-button,
+.exit-no-button {
     padding: 8px 16px;
     margin: 0 10px;
     cursor: pointer;
     border: none;
     border-radius: 4px;
     font-size: 1rem;
-  }
-  
-  .exit-yes-button {
+}
+
+.exit-yes-button {
     background-color: #2ecc71;
     color: #fff;
-  }
-  
-  .exit-no-button {
+}
+
+.exit-no-button {
     background-color: #e74c3c;
     color: #fff;
-  }
+}
 
 .speech-button {
-    /* background-color: #2f86b9;
-    border: none;
-    border-radius: 50%;
-    color: #fff;
-    cursor: pointer;
-    font-size: 16px;
-    padding: 8px 12px; */
     background-color: #ccc;
     color: #666;
     border: none;
@@ -249,6 +241,6 @@ img {
     outline: none;
 }
 
-.Options{
+.Options {
     display: flex;
 }

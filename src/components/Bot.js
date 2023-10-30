@@ -13,6 +13,10 @@ export default function App() {
   const [email, setEmail] = useState('');
   const [userData, setUserData] = useState(false);
   const [showExitModal, setShowExitModal] = useState(false);
+  const [menuOptions, setMenuOptions] = useState([]);
+  const [subMenuOptions, setSubMenuOptions] = useState([]);
+  const [currentMenu, setCurrentMenu] = useState('main');
+  const [responseCount, setResponseCount] = useState(0);
   const audio = useRef(null);
   const chatMessagesRef = useRef(null);
 
@@ -39,7 +43,6 @@ export default function App() {
 
   let popupTimeout;
   window.onload = function () {
-    console.log("Website has been loaded or reloaded.");
     popupTimeout = setTimeout(() => {
       setShowPopup(true);
     }, 500);
@@ -79,6 +82,79 @@ export default function App() {
     setEmail(e.target.value);
   };
 
+  const handleMenuOptionClick = (option) => {
+    if (option === 'Courses Offered') {
+      const userMessage = { text: 'Courses Offered', sender: 'user' };
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
+
+      const botMessage = {
+        text: 'We Offer the following courses: ', sender: 'bot'
+      };
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
+      setSubMenuOptions(['B.Tech', 'M.Tech', 'PHD']);
+
+    } else if (option === 'Placements') {
+      const userMessage = { text: 'Placements', sender: 'user' };
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
+
+      const botMessage = {
+        text: 'Select Department', sender: 'bot'
+      };
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
+      setSubMenuOptions(['Computer Science', 'Information Technology', 'Mechanical']);
+
+    } else if (option === 'Academics') {
+      const userMessage = { text: 'Academics', sender: 'user' };
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
+
+      const botMessage = {
+        text: 'Academics:', sender: 'bot'
+      };
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
+      setSubMenuOptions(['Academic Calendar', 'Academic Structure']);
+    }
+    setCurrentMenu('submenu');
+  };
+
+  const handleSubMenuOptionClick = (option) => {
+    if (option === 'B.Tech') {
+      const userMessage = { text: 'B.Tech', sender: 'user' };
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
+
+      const botMessage = ({ text: 'Read more at "mujhenahipata.com"', sender: "bot" });
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
+      setSubMenuOptions([]);
+
+    } else if (option === 'M.Tech') {
+      const userMessage = { text: 'M.Tech', sender: 'user' };
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
+
+      const botMessage = ({ text: 'Read more at "mujhenahipata.com"', sender: "bot" });
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
+      setSubMenuOptions([]);
+
+    } else if (option === 'PHD') {
+      const userMessage = { text: 'PHD', sender: 'user' };
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
+
+      const botMessage = ({ text: 'Read more at "mujhenahipata.com"', sender: "bot" });
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
+      setSubMenuOptions([]);
+    }
+
+    else if (option === 'Computer Science') {
+      const userMessage = { text: 'Computer Science', sender: 'user' };
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
+
+      const botMessage = ({ text: 'Read more at "mujhenahipata.com"', sender: "bot" });
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
+      setSubMenuOptions([]);
+    }
+  };
+
+
+
+  // INPUT USER NAME AND EMAIL
   const handleUserDetails = () => {
     if (name.trim() === '' || email.trim() === '') {
       console.error("Name and email are required.");
@@ -105,6 +181,7 @@ export default function App() {
           };
           setMessages((prevMessages) => [...prevMessages, botMessage]);
           setUserData(false);
+          setMenuOptions(['Courses Offered', 'Placements', 'Academics']);
         } else if (response.status === 400) {
           console.error("Failed to save user details. A user with this email already exists.");
         } else {
@@ -127,6 +204,7 @@ export default function App() {
     chatbot.classList.toggle('active');
   };
 
+  // Chatbot's Reply Logic
   const handleChat = () => {
     if (inputMessage.trim() !== '') {
       const userMessage = { text: inputMessage, sender: 'user' };
@@ -161,6 +239,7 @@ export default function App() {
     }
   };
 
+  // If a sugestion is clicked
   const handleOptionClick = (option) => {
     const userMessage = { text: option, sender: 'user' };
     setMessages((prevMessages) => [...prevMessages, userMessage]);
@@ -183,7 +262,15 @@ export default function App() {
         if (data.options) {
           setOptions(data.options);
         }
+
+        setResponseCount((count) => count + 1);
+
+        if (responseCount >= 2) {
+          setResponseCount(0); 
+          setOptions(["👍 Thumbs Up", "👎 Thumbs Down"]);
+        }
       })
+
       .catch((error) => {
         console.error("Error:", error);
       })
@@ -204,6 +291,7 @@ export default function App() {
     }
   };
 
+  // If user exits chatbot:
   const handleToggleExitModal = () => {
     if (messages.length === 2) {
       setMessages([
@@ -304,6 +392,28 @@ export default function App() {
               </div>
             )}
 
+            {!userData && currentMenu == 'main' &&
+              <div className="menu">
+                <ul>
+                  {menuOptions.map((option, index) => (
+                    <li key={index}>
+                      <button className={`chat-options`} onClick={() => handleMenuOptionClick(option)}>{option}</button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            }
+            {subMenuOptions.length > 0 && (
+              <div className="sub-menu">
+                <ul>
+                  {subMenuOptions.map((option, index) => (
+                    <li key={index}>
+                      <button className="chat-options" onClick={() => handleSubMenuOptionClick(option)}>{option}</button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
             {!isBotTyping && options.length > 0 && (
               <div className=''>
                 Suggestions: <br />
@@ -337,23 +447,25 @@ export default function App() {
             ❌
           </button> */}
         </div>
-      </div>
+      </div >
 
       <audio ref={audio} src={messageSound} preload="auto" />
 
-      {showExitModal && (
-        <div className="exit-modal">
-          <div className="exit-modal-content">
-            <div className="exit-modal-header">
-              <h4>Are you sure you want to exit?Your chat won't be stored.</h4>
-            </div>
-            <div className="exit-modal-footer">
-              <button onClick={handleExitYes} className="exit-yes-button">Yes</button>
-              <button onClick={() => setShowExitModal(false)} className="exit-no-button">No</button>
+      {
+        showExitModal && (
+          <div className="exit-modal">
+            <div className="exit-modal-content">
+              <div className="exit-modal-header">
+                <h4>Are you sure you want to exit?Your chat won't be stored.</h4>
+              </div>
+              <div className="exit-modal-footer">
+                <button onClick={handleExitYes} className="exit-yes-button">Yes</button>
+                <button onClick={() => setShowExitModal(false)} className="exit-no-button">No</button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )
+      }
     </>
   );
 }

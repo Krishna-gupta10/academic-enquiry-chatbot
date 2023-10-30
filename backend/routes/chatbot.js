@@ -25,7 +25,7 @@ router.post('/chat', async (req, res) => {
 
           ChatMessage.create({
             userQuery,
-            botResponse: responseObject.message, 
+            botResponse: responseObject.message,
           });
 
           resolve(responseObject);
