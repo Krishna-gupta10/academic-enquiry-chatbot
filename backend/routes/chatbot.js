@@ -22,12 +22,6 @@ router.post('/chat', async (req, res) => {
         const responseString = data.toString();
         try {
           const responseObject = JSON.parse(responseString);
-
-          ChatMessage.create({
-            userQuery,
-            botResponse: responseObject.message,
-          });
-
           resolve(responseObject);
         } catch (error) {
           reject(error);
@@ -54,6 +48,25 @@ router.post('/chat', async (req, res) => {
     res.status(500).json({ error: 'Internal server error.' });
   }
 });
+
+router.post('/thumbsDownMessage', [
+  body('text').isLength({ min: 1 }),
+  body('sender').isLength({ min: 1 }),
+], async (req, res) => {
+  const { text, sender } = req.body;
+
+  try {
+    await ChatMessage.create({
+      userQuery: text,
+    });
+
+    res.status(201).json({ message: 'Thumbs down feedback saved successfully' });
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Internal server error.' });
+  }
+});
+
 
 
 router.post('/userdetails', [

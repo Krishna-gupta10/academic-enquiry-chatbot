@@ -4,9 +4,6 @@ const chatMessageSchema = new mongoose.Schema({
   userQuery: {
     type: String,
   },
-  botResponse: {
-    type: String,
-  },
   timestamp: {
     type: Date,
     default: Date.now,

@@ -18,6 +18,7 @@ export default function App() {
   const [subMenuOptions, setSubMenuOptions] = useState([]);
   const [currentMenu, setCurrentMenu] = useState('main');
   const [showFeedback, setShowFeedback] = useState(false);
+  const [originalUserMessage, setOriginalUserMessage] = useState('');
   const audio = useRef(null);
   const chatMessagesRef = useRef(null);
 
@@ -209,6 +210,7 @@ export default function App() {
     setShowMenu(false);
     setShowFeedback(false);
     if (inputMessage.trim() !== '') {
+      setOriginalUserMessage(inputMessage);
       const userMessage = { text: inputMessage, sender: 'user' };
       setMessages((prevMessages) => [...prevMessages, userMessage]);
       setInputMessage('');
@@ -293,14 +295,35 @@ export default function App() {
     setMessages((prevMessages) => [...prevMessages, botMessage]);
 
   }
+
   const handleThumbsDownFeedback = () => {
     setShowFeedback(false);
-    const botMessage = {
-      text: 'Thankyou for the feedback! I will try to improve next time..',
-      sender: 'bot',
-    }
-    setMessages((prevMessages) => [...prevMessages, botMessage]);
-  }
+    const userMessage = { text: originalUserMessage, sender: 'user' }; 
+    console.log(userMessage);
+
+    fetch("http://localhost:5000/api/chatbot/thumbsDownMessage", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userMessage), 
+    })
+      .then((response) => {
+        if (response.status === 201) {
+          console.log("Thumbs down message sent successfully:", userMessage);
+          const botMessage = {
+            text: 'Thank you for the feedback! I will try to improve next time...',
+            sender: 'bot',
+          };
+          setMessages((prevMessages) => [...prevMessages, botMessage]);
+        } else {
+          console.error("Failed to send thumbs down message. Server responded with status:", response.status);
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
 
   // IF USER EXITS CHATBOT
   const handleToggleExitModal = () => {
@@ -382,8 +405,8 @@ export default function App() {
 
             {showFeedback && (
               <div>
-                <button onClick={handleThumbsUpFeedback} className="btn btn-success btn-sm mx-2 mb-2"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button>
-                <button onClick={handleThumbsDownFeedback} className="btn btn-warning btn-sm mb-2"><i class="fa fa-thumbs-down" aria-hidden="true"></i></button>
+                <button onClick={handleThumbsUpFeedback} className="btn btn-success btn-sm mx-2 mb-2"><i className="fa fa-thumbs-up" aria-hidden="true"></i></button>
+                <button onClick={handleThumbsDownFeedback} className="btn btn-warning btn-sm mb-2"><i className="fa fa-thumbs-down" aria-hidden="true"></i></button>
               </div>
             )}
 
