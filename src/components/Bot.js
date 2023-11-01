@@ -100,20 +100,30 @@ export default function App() {
       setMessages((prevMessages) => [...prevMessages, userMessage]);
 
       const botMessage = {
-        text: 'Select Department', sender: 'bot'
+        text: 'How Can we Help you regarding Placements \nWe can Provide you with the overall:', sender: 'bot'
       };
       setMessages((prevMessages) => [...prevMessages, botMessage]);
-      setSubMenuOptions(['Computer Science', 'Information Technology', 'Mechanical']);
+      setSubMenuOptions(['Summary of placements', 'Differents Recruiters']);
 
     } else if (option === 'Academics') {
       const userMessage = { text: 'Academics', sender: 'user' };
       setMessages((prevMessages) => [...prevMessages, userMessage]);
 
       const botMessage = {
-        text: 'Academics:', sender: 'bot'
+        text: 'Informations That Might Be usefull to you regarding Academics:', sender: 'bot'
       };
       setMessages((prevMessages) => [...prevMessages, botMessage]);
-      setSubMenuOptions(['Academic Calendar', 'Academic Structure']);
+      setSubMenuOptions(['Academic Calendar', 'Academic Structure','Syllabus','Academic Council']);
+
+    } else if (option === 'Facilities') {
+      const userMessage = { text: 'Facilities', sender: 'user' };
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
+
+      const botMessage = {
+        text: 'Different Facicilites Provided @VIIT Are:', sender: 'bot'
+      };
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
+      setSubMenuOptions(['Accomodation', 'Lab\'s','Different Research & development Opportunities']);
     }
     setCurrentMenu('submenu');
   };
@@ -123,17 +133,17 @@ export default function App() {
       const userMessage = { text: 'B.Tech', sender: 'user' };
       setMessages((prevMessages) => [...prevMessages, userMessage]);
 
-      const botMessage = ({ text: 'Read more at "mujhenahipata.com"', sender: "bot" });
+      const botMessage = ({ text: 'Courses Offered in B.tech Are:', sender: "bot" });
       setMessages((prevMessages) => [...prevMessages, botMessage]);
-      setSubMenuOptions([]);
+      setSubMenuOptions(['Civil','Computer Engineer','Electronics & Telecomunication Engineering','Information Technology','Mechanical Engineering','AI & DS']);
 
     } else if (option === 'M.Tech') {
       const userMessage = { text: 'M.Tech', sender: 'user' };
       setMessages((prevMessages) => [...prevMessages, userMessage]);
 
-      const botMessage = ({ text: 'Read more at "mujhenahipata.com"', sender: "bot" });
+      const botMessage = ({ text: 'We Offer a Variety of programs For M.tech Enthusiast:', sender: "bot" });
       setMessages((prevMessages) => [...prevMessages, botMessage]);
-      setSubMenuOptions([]);
+      setSubMenuOptions(['Civil','Computer Engineering','Electronics & Telecomunication Engineering','Mechanical Engineering']);
 
     } else if (option === 'PHD') {
       const userMessage = { text: 'PHD', sender: 'user' };
@@ -141,17 +151,75 @@ export default function App() {
 
       const botMessage = ({ text: 'Read more at "mujhenahipata.com"', sender: "bot" });
       setMessages((prevMessages) => [...prevMessages, botMessage]);
-      setSubMenuOptions([]);
+      setSubMenuOptions(['Mechanical Engineering','Civil','Computer Engineering','Electronics & Telecomunication Engineering']);
     }
 
-    else if (option === 'Computer Science') {
-      const userMessage = { text: 'Computer Science', sender: 'user' };
+    else if (option === 'Summary of placements') {
+      const userMessage = { text: 'Summary of placements', sender: 'user' };
       setMessages((prevMessages) => [...prevMessages, userMessage]);
 
-      const botMessage = ({ text: 'Read more at "mujhenahipata.com"', sender: "bot" });
+      const botMessage = ({ text: 'Click here for the information you\'ve been looking for', sender: "bot" ,link:'https://www.viit.ac.in/placement-i2ic/placement-summary'});
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
+      setSubMenuOptions([]);
+
+    } else if (option === 'Differents Recruiters') {
+      const userMessage = { text: 'Differents Recruiters', sender: 'user' };
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
+
+      const botMessage = ({ text: 'We\'ve a variety of recruiter\'s like:\nAccenture\tLoreal\tNVIDIA\tTech Mahindra\nHere\'s a list of all:' , sender: "bot",link:'https://www.viit.ac.in/placement-i2ic/our-recruiters-i2ic' });
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
+      setSubMenuOptions([]);
+    
+    }  else if (option === 'Academic Calendar') {
+      const userMessage = { text: 'Academic Calendar', sender: 'user' };
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
+
+      const botMessage = ({ text: 'Click Here For the Academic calender:' , sender: "bot",link:'https://www.viit.ac.in/images/Academics/Institute_Calendar_Sem-I_AY_2023-24.pdf' });
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
+      setSubMenuOptions([]);
+
+    }  else if (option === 'Academic Structure') {
+      const userMessage = { text: 'Academic Structure', sender: 'user' };
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
+
+      const botMessage = ({ text: 'Click Here For the Academic Structure' , sender: "bot",link:'https://www.viit.ac.in/images/Academics/structure/Academic-structures_AY_2023-24.pdf' });
       setMessages((prevMessages) => [...prevMessages, botMessage]);
       setSubMenuOptions([]);
     }
+      else if (option === 'Syllabus') {
+      const userMessage = { text: 'Syllabus', sender: 'user' };
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
+
+      const botMessage = ({ text: 'Select the Branch for the Particular Syllabus' , sender: "bot",link:'https://www.viit.ac.in/images/Academics/structure/Academic-structures_AY_2023-24.pdf' });
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
+      setSubMenuOptions(['Civil','Computer Engineer','Electronics & Telecomunication Engineering','Information Technology','Mechanical Engineering','AI & DS']);
+    }
+      else if (option === 'Academic Council') {
+      const userMessage = { text: 'Academic Council', sender: 'user' };
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
+
+      const botMessage = ({ text: 'Click here' , sender: "bot",link:'https://www.viit.ac.in/academicjuly2020/academic-board-council' });
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
+      setSubMenuOptions([]);
+    }
+      else if (option === 'Accomodation') {
+      const userMessage = { text: 'Accomodation', sender: 'user' };
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
+
+      const botMessage = ({ text: 'Click here' , sender: "bot",link:'https://www.viit.ac.in/images/Admissions/Hostel-Fees/VIIT-Hostel-Fee-Structure-2023-24.pdf' });
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
+      setSubMenuOptions([]);
+    }
+      else if (option === 'Different Research & development Opportunities') {
+      const userMessage = { text: 'Different Research & development Opportunities', sender: 'user' };
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
+
+      const botMessage = ({ text: 'Click here' , sender: "bot",link:'https://www.viit.ac.in/research-and-development-cerd/r-d-scheme' });
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
+      setSubMenuOptions([]);
+    }
+
+    
   };
 
 
@@ -181,7 +249,7 @@ export default function App() {
           setMessages((prevMessages) => [...prevMessages, botMessage]);
           setUserData(false);
           setShowMenu(true);
-          setMenuOptions(['Courses Offered', 'Placements', 'Academics']);
+          setMenuOptions(['Courses Offered', 'Placements', 'Academics','Facilities']);
         } else if (response.status === 400) {
           console.error("Failed to save user details. A user with this email already exists.");
         } else {
@@ -193,6 +261,10 @@ export default function App() {
       });
   };
 
+  const openLinkInNewTab = (e, link) => {
+    e.preventDefault();
+    window.open(link, '_blank');
+  };
 
   const toggleBOT = () => {
     clearTimeout(popupTimeout);
@@ -399,7 +471,14 @@ export default function App() {
                 key={index}
                 className={`message ${message.sender === 'user' ? 'user-message' : 'other-message'}`}
               >
-                {message.text}
+                 {message.link ? (
+                    <a href={message.link} target="_blank" onClick={(e) => openLinkInNewTab(e, message.link)}>
+                  {message.text}
+                    </a>
+                  ) : (
+                  message.text
+    )}
+                
               </div>
             ))}
 
