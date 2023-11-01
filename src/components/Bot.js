@@ -13,10 +13,11 @@ export default function App() {
   const [email, setEmail] = useState('');
   const [userData, setUserData] = useState(false);
   const [showExitModal, setShowExitModal] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
   const [menuOptions, setMenuOptions] = useState([]);
   const [subMenuOptions, setSubMenuOptions] = useState([]);
   const [currentMenu, setCurrentMenu] = useState('main');
-  const [responseCount, setResponseCount] = useState(0);
+  const [showFeedback, setShowFeedback] = useState(false);
   const audio = useRef(null);
   const chatMessagesRef = useRef(null);
 
@@ -155,11 +156,8 @@ export default function App() {
 
 
   // INPUT USER NAME AND EMAIL
-  const handleUserDetails = () => {
-    if (name.trim() === '' || email.trim() === '') {
-      console.error("Name and email are required.");
-      return;
-    }
+  const handleUserDetails = (e) => {
+    e.preventDefault();
 
     fetch("http://localhost:5000/api/chatbot/userdetails", {
       method: "POST",
@@ -181,6 +179,7 @@ export default function App() {
           };
           setMessages((prevMessages) => [...prevMessages, botMessage]);
           setUserData(false);
+          setShowMenu(true);
           setMenuOptions(['Courses Offered', 'Placements', 'Academics']);
         } else if (response.status === 400) {
           console.error("Failed to save user details. A user with this email already exists.");
@@ -192,6 +191,7 @@ export default function App() {
         console.error("Error:", error);
       });
   };
+
 
   const toggleBOT = () => {
     clearTimeout(popupTimeout);
@@ -206,6 +206,8 @@ export default function App() {
 
   // Chatbot's Reply Logic
   const handleChat = () => {
+    setShowMenu(false);
+    setShowFeedback(false);
     if (inputMessage.trim() !== '') {
       const userMessage = { text: inputMessage, sender: 'user' };
       setMessages((prevMessages) => [...prevMessages, userMessage]);
@@ -228,6 +230,7 @@ export default function App() {
 
           if (data.options) {
             setOptions(data.options);
+            setShowFeedback(true);
           }
         })
         .catch((error) => {
@@ -263,12 +266,6 @@ export default function App() {
           setOptions(data.options);
         }
 
-        setResponseCount((count) => count + 1);
-
-        if (responseCount >= 2) {
-          setResponseCount(0); 
-          setOptions(["👍 Thumbs Up", "👎 Thumbs Down"]);
-        }
       })
 
       .catch((error) => {
@@ -285,13 +282,26 @@ export default function App() {
     }
   };
 
-  const handleKeyDown2 = (event) => {
-    if (event.key === 'Enter') {
-      handleUserDetails();
+  // FEEDBACK HANDLING FUNCTIONS
+  const handleThumbsUpFeedback = () => {
+    setShowFeedback(false);
+    const botMessage = {
+      text: 'Thankyou for the feedback!',
+      sender: 'bot',
     }
-  };
+    setMessages((prevMessages) => [...prevMessages, botMessage]);
 
-  // If user exits chatbot:
+  }
+  const handleThumbsDownFeedback = () => {
+    setShowFeedback(false);
+    const botMessage = {
+      text: 'Thankyou for the feedback! I will try to improve next time..',
+      sender: 'bot',
+    }
+    setMessages((prevMessages) => [...prevMessages, botMessage]);
+  }
+
+  // IF USER EXITS CHATBOT
   const handleToggleExitModal = () => {
     if (messages.length === 2) {
       setMessages([
@@ -369,30 +379,41 @@ export default function App() {
               </div>
             ))}
 
-            {userData && (
-              <div className="input-container">
-                <input
-                  className="input-details"
-                  type="text"
-                  placeholder="Your Name"
-                  value={name}
-                  onChange={handleNameChange}
-                />
-                <input
-                  className="input-details"
-                  type="email"
-                  placeholder="Your Email"
-                  value={email}
-                  onChange={handleEmailChange}
-                  onKeyDown={handleKeyDown2}
-                />
-                <button className="btn-sm btn-primary" id="send-button" onClick={handleUserDetails}>
-                  Submit
-                </button>
+            {showFeedback && (
+              <div>
+                <button onClick={handleThumbsUpFeedback} className="btn btn-success btn-sm">Thumbs Up</button>
+                <button onClick={handleThumbsDownFeedback} className="btn btn-warning btn-sm">Thumbs Down</button>
               </div>
             )}
 
-            {!userData && currentMenu === 'main' &&
+            {userData && (
+              <form onSubmit={handleUserDetails}>
+                <div className="input-container">
+                  <input
+                    className="input-details"
+                    type="text"
+                    placeholder="Your Name"
+                    value={name}
+                    onChange={handleNameChange}
+                    required
+                  />
+                  <input
+                    className="input-details"
+                    type="email"
+                    placeholder="Your Email"
+                    value={email}
+                    onChange={handleEmailChange}
+                    required
+                  />
+                  <button className="btn-sm btn-primary" id="send-button">
+                    Submit
+                  </button>
+                </div>
+              </form>
+
+            )}
+
+            {!userData && showMenu && currentMenu === 'main' &&
               <div className="menu">
                 <ul>
                   {menuOptions.map((option, index) => (
@@ -415,8 +436,7 @@ export default function App() {
               </div>
             )}
             {!isBotTyping && options.length > 0 && (
-              <div className=''>z
-                Suggestions: <br />
+              <div className=''>
                 {options.map((option, index) => (
                   <button
                     key={index}
@@ -444,8 +464,8 @@ export default function App() {
 
           <br />
           {/* <button className="closeBOT" onClick={handleToggleExitModal}>
-            ❌
-          </button> */}
+              ❌
+            </button> */}
         </div>
       </div >
 
