@@ -392,7 +392,7 @@ export default function App() {
               </div>
             )}
 
-            {!userData && currentMenu == 'main' &&
+            {!userData && currentMenu === 'main' &&
               <div className="menu">
                 <ul>
                   {menuOptions.map((option, index) => (
@@ -415,7 +415,7 @@ export default function App() {
               </div>
             )}
             {!isBotTyping && options.length > 0 && (
-              <div className=''>
+              <div className=''>z
                 Suggestions: <br />
                 {options.map((option, index) => (
                   <button
