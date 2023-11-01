@@ -264,6 +264,7 @@ export default function App() {
 
         if (data.options) {
           setOptions(data.options);
+          setShowFeedback(true);
         }
 
       })
@@ -381,8 +382,8 @@ export default function App() {
 
             {showFeedback && (
               <div>
-                <button onClick={handleThumbsUpFeedback} className="btn btn-success btn-sm">Thumbs Up</button>
-                <button onClick={handleThumbsDownFeedback} className="btn btn-warning btn-sm">Thumbs Down</button>
+                <button onClick={handleThumbsUpFeedback} className="btn btn-success btn-sm mx-2 mb-2"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button>
+                <button onClick={handleThumbsDownFeedback} className="btn btn-warning btn-sm mb-2"><i class="fa fa-thumbs-down" aria-hidden="true"></i></button>
               </div>
             )}
 
