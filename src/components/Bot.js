@@ -26,18 +26,14 @@ export default function App() {
   const chatMessagesRef = useRef(null);
 
   useEffect(() => {
-    const savedChatHistory = localStorage.getItem('chatHistory');
-    if (savedChatHistory) {
-      setMessages(JSON.parse(savedChatHistory));
-    } else {
-      setMessages([
-        { text: "Hello, I am VishwaGuru!", sender: 'bot' },
-        { text: 'Let us get started with your Name and Email! It helps me to remember you :)', sender: 'bot' },
-      ]);
-    }
+    setMessages([
+      { text: "Hello, I am VishwaGuru!", sender: 'bot' },
+      { text: 'Let us get started with your Name and Email! It helps me to remember you :)', sender: 'bot' },
+    ]);
+
     setTimeout(() => {
       setUserData(true);
-    }, 100);
+    }, 100)
   }, []);
 
   useEffect(() => {
@@ -95,45 +91,45 @@ export default function App() {
   const handleMenuOptionClick = (option) => {
     if (option === 'Courses Offered') {
       const userMessage = { text: 'Courses Offered', sender: 'user' };
-      setMessagesWithLocalStorage((prevMessages) => [...prevMessages, userMessage]);
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
 
       const botMessage = {
         text: 'We Offer the following courses: ', sender: 'bot'
       };
-      setMessagesWithLocalStorage((prevMessages) => [...prevMessages, botMessage]);
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
       setCurrentMenu('one');
       setMenu1Options(['B.Tech', 'M.Tech', 'PHD', 'Go Back']);
 
     } else if (option === 'Placements') {
       const userMessage = { text: 'Placements', sender: 'user' };
-      setMessagesWithLocalStorage((prevMessages) => [...prevMessages, userMessage]);
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
 
       const botMessage = {
         text: 'How Can we Help you regarding Placements \nWe can Provide you with the overall:', sender: 'bot'
       };
-      setMessagesWithLocalStorage((prevMessages) => [...prevMessages, botMessage]);
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
       setCurrentMenu('one');
       setMenu1Options(['Summary of placements', 'Differents Recruiters', 'Go Back']);
 
     } else if (option === 'Academics') {
       const userMessage = { text: 'Academics', sender: 'user' };
-      setMessagesWithLocalStorage((prevMessages) => [...prevMessages, userMessage]);
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
 
       const botMessage = {
         text: 'Informations That Might Be usefull to you regarding Academics:', sender: 'bot'
       };
-      setMessagesWithLocalStorage((prevMessages) => [...prevMessages, botMessage]);
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
       setCurrentMenu('one');
       setMenu1Options(['Academic Calendar', 'Academic Structure', 'Syllabus', 'Academic Council', 'Go Back']);
 
     } else if (option === 'Facilities') {
       const userMessage = { text: 'Facilities', sender: 'user' };
-      setMessagesWithLocalStorage((prevMessages) => [...prevMessages, userMessage]);
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
 
       const botMessage = {
         text: 'Different Facicilites Provided @VIIT Are:', sender: 'bot'
       };
-      setMessagesWithLocalStorage((prevMessages) => [...prevMessages, botMessage]);
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
       setCurrentMenu('one');
       setMenu1Options(['Accomodation', 'Lab\'s', 'Different Research & development Opportunities', 'Go Back']);
     }
@@ -142,106 +138,106 @@ export default function App() {
   const handleFirstMenuOptionClick = (option) => {
     if (option === 'B.Tech') {
       const userMessage = { text: 'B.Tech', sender: 'user' };
-      setMessagesWithLocalStorage((prevMessages) => [...prevMessages, userMessage]);
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
 
       const botMessage = ({ text: 'Courses Offered in B.tech Are:', sender: "bot" });
-      setMessagesWithLocalStorage((prevMessages) => [...prevMessages, botMessage]);
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
       setCurrentMenu('two');
       setMenu2Options(['Civil', 'Computer Engineer', 'Electronics & Telecomunication Engineering', 'Information Technology', 'Mechanical Engineering', 'AI & DS', 'Go Back', 'Main Menu']);
 
     } else if (option === 'M.Tech') {
       const userMessage = { text: 'M.Tech', sender: 'user' };
-      setMessagesWithLocalStorage((prevMessages) => [...prevMessages, userMessage]);
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
 
       const botMessage = ({ text: 'We Offer a Variety of programs For M.tech Enthusiast:', sender: "bot" });
-      setMessagesWithLocalStorage((prevMessages) => [...prevMessages, botMessage]);
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
       setCurrentMenu('two');
       setMenu2Options(['Civil', 'Computer Engineering', 'Electronics & Telecomunication Engineering', 'Mechanical Engineering', 'Go Back', 'Main Menu']);
 
     } else if (option === 'PHD') {
       const userMessage = { text: 'PHD', sender: 'user' };
-      setMessagesWithLocalStorage((prevMessages) => [...prevMessages, userMessage]);
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
 
       const botMessage = ({ text: 'Read more at "mujhenahipata.com"', sender: "bot" });
-      setMessagesWithLocalStorage((prevMessages) => [...prevMessages, botMessage]);
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
       setCurrentMenu('two');
       setMenu2Options(['Mechanical Engineering', 'Civil', 'Computer Engineering', 'Electronics & Telecomunication Engineering', 'Go Back', 'Main Menu']);
     }
 
     else if (option === 'Summary of placements') {
       const userMessage = { text: 'Summary of placements', sender: 'user' };
-      setMessagesWithLocalStorage((prevMessages) => [...prevMessages, userMessage]);
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
 
       const botMessage = ({ text: 'Click here for the information you\'ve been looking for', sender: "bot", link: 'https://www.viit.ac.in/placement-i2ic/placement-summary' });
-      setMessagesWithLocalStorage((prevMessages) => [...prevMessages, botMessage]);
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
       setCurrentMenu('two');
       setMenu2Options(['Go Back', 'Main Menu']);
 
     } else if (option === 'Differents Recruiters') {
       const userMessage = { text: 'Differents Recruiters', sender: 'user' };
-      setMessagesWithLocalStorage((prevMessages) => [...prevMessages, userMessage]);
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
 
       const botMessage = ({ text: 'We\'ve a variety of recruiter\'s like:\nAccenture\tLoreal\tNVIDIA\tTech Mahindra\nHere\'s a list of all:', sender: "bot", link: 'https://www.viit.ac.in/placement-i2ic/our-recruiters-i2ic' });
-      setMessagesWithLocalStorage((prevMessages) => [...prevMessages, botMessage]);
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
       setCurrentMenu('two');
       setMenu2Options(['Go Back', 'Main Menu']);
 
     } else if (option === 'Academic Calendar') {
       const userMessage = { text: 'Academic Calendar', sender: 'user' };
-      setMessagesWithLocalStorage((prevMessages) => [...prevMessages, userMessage]);
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
 
       const botMessage = ({ text: 'Click Here For the Academic calender:', sender: "bot", link: 'https://www.viit.ac.in/images/Academics/Institute_Calendar_Sem-I_AY_2023-24.pdf' });
-      setMessagesWithLocalStorage((prevMessages) => [...prevMessages, botMessage]);
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
       setMenu2Options(['Go Back', 'Main Menu']);
 
     } else if (option === 'Academic Structure') {
       const userMessage = { text: 'Academic Structure', sender: 'user' };
-      setMessagesWithLocalStorage((prevMessages) => [...prevMessages, userMessage]);
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
 
       const botMessage = ({ text: 'Click Here For the Academic Structure', sender: "bot", link: 'https://www.viit.ac.in/images/Academics/structure/Academic-structures_AY_2023-24.pdf' });
-      setMessagesWithLocalStorage((prevMessages) => [...prevMessages, botMessage]);
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
       setCurrentMenu('two');
       setMenu2Options(['Go Back', 'Main Menu']);
     }
     else if (option === 'Syllabus') {
       const userMessage = { text: 'Syllabus', sender: 'user' };
-      setMessagesWithLocalStorage((prevMessages) => [...prevMessages, userMessage]);
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
 
       const botMessage = ({ text: 'Select the Branch for the Particular Syllabus', sender: "bot", link: 'https://www.viit.ac.in/images/Academics/structure/Academic-structures_AY_2023-24.pdf' });
-      setMessagesWithLocalStorage((prevMessages) => [...prevMessages, botMessage]);
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
       setCurrentMenu('two');
       setMenu2Options(['Civil', 'Computer Engineering', 'Electronics & Telecomunication Engineering', 'Information Technology', 'Mechanical Engineering', 'AI & DS', 'Go Back', 'Main Menu']);
     }
     else if (option === 'Academic Council') {
       const userMessage = { text: 'Academic Council', sender: 'user' };
-      setMessagesWithLocalStorage((prevMessages) => [...prevMessages, userMessage]);
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
 
       const botMessage = ({ text: 'Click here', sender: "bot", link: 'https://www.viit.ac.in/academicjuly2020/academic-board-council' });
-      setMessagesWithLocalStorage((prevMessages) => [...prevMessages, botMessage]);
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
       setCurrentMenu('two');
       setMenu2Options(['Go Back', 'Main Menu']);
     }
     else if (option === 'Accomodation') {
       const userMessage = { text: 'Accomodation', sender: 'user' };
-      setMessagesWithLocalStorage((prevMessages) => [...prevMessages, userMessage]);
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
 
       const botMessage = ({ text: 'Click here', sender: "bot", link: 'https://www.viit.ac.in/images/Admissions/Hostel-Fees/VIIT-Hostel-Fee-Structure-2023-24.pdf' });
-      setMessagesWithLocalStorage((prevMessages) => [...prevMessages, botMessage]);
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
       setCurrentMenu('two');
       setMenu2Options(['Go Back', 'Main Menu']);
     }
     else if (option === 'Different Research & development Opportunities') {
       const userMessage = { text: 'Different Research & development Opportunities', sender: 'user' };
-      setMessagesWithLocalStorage((prevMessages) => [...prevMessages, userMessage]);
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
 
       const botMessage = ({ text: 'Click here', sender: "bot", link: 'https://www.viit.ac.in/research-and-development-cerd/r-d-scheme' });
-      setMessagesWithLocalStorage((prevMessages) => [...prevMessages, botMessage]);
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
       setCurrentMenu('two');
       setMenu2Options(['Go Back', 'Main Menu']);
     }
     else if (option === 'Go Back') {
       const userMessage = { text: 'Go Back', sender: 'user' };
-      setMessagesWithLocalStorage((prevMessages) => [...prevMessages, userMessage]);
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
 
       setCurrentMenu('main');
     }
@@ -250,40 +246,40 @@ export default function App() {
   const handleSecondMenuOptionClick = (option) => {
     if (option === 'Civil') {
       const userMessage = { text: 'Civil', sender: 'user' };
-      setMessagesWithLocalStorage((prevMessages) => [...prevMessages, userMessage]);
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
 
       const botMessage = ({ text: 'Courses Offered in B.tech Are:', sender: "bot" });
-      setMessagesWithLocalStorage((prevMessages) => [...prevMessages, botMessage]);
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
       setCurrentMenu('two');
       setMenu2Options(['Civil', 'Computer Engineer', 'Electronics & Telecomunication Engineering', 'Information Technology', 'Mechanical Engineering', 'AI & DS']);
 
     } else if (option === 'Computer Engineering') {
       const userMessage = { text: 'M.Tech', sender: 'user' };
-      setMessagesWithLocalStorage((prevMessages) => [...prevMessages, userMessage]);
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
 
       const botMessage = ({ text: 'We Offer a Variety of programs For M.tech Enthusiast:', sender: "bot" });
-      setMessagesWithLocalStorage((prevMessages) => [...prevMessages, botMessage]);
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
       setCurrentMenu('two');
       setMenu2Options(['Civil', 'Computer Engineering', 'Electronics & Telecomunication Engineering', 'Mechanical Engineering']);
 
     } else if (option === 'PHD') {
       const userMessage = { text: 'PHD', sender: 'user' };
-      setMessagesWithLocalStorage((prevMessages) => [...prevMessages, userMessage]);
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
 
       const botMessage = ({ text: 'Read more at "mujhenahipata.com"', sender: "bot" });
-      setMessagesWithLocalStorage((prevMessages) => [...prevMessages, botMessage]);
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
       setCurrentMenu('two');
       setMenu2Options(['Mechanical Engineering', 'Civil', 'Computer Engineering', 'Electronics & Telecomunication Engineering']);
     }
     else if (option === 'Go Back') {
       const userMessage = { text: 'Go Back', sender: 'user' };
-      setMessagesWithLocalStorage((prevMessages) => [...prevMessages, userMessage]);
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
 
       setCurrentMenu('one');
     }
     else if (option === 'Main Menu') {
       const userMessage = { text: 'Go Back', sender: 'user' };
-      setMessagesWithLocalStorage((prevMessages) => [...prevMessages, userMessage]);
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
 
       setCurrentMenu('main');
     }
@@ -313,7 +309,7 @@ export default function App() {
             text: `Thanks for the information, ${name}. Please feel free to ask me about VIIT.`,
             sender: 'bot',
           };
-          setMessagesWithLocalStorage((prevMessages) => [...prevMessages, botMessage]);
+          setMessages((prevMessages) => [...prevMessages, botMessage]);
           setUserData(false);
 
           setShowMenu(true);
@@ -345,11 +341,6 @@ export default function App() {
     chatbot.classList.toggle('active');
   };
 
-  const setMessagesWithLocalStorage = (newMessages) => {
-    setMessages(newMessages);
-    // Save the updated chat history in localStorage
-    localStorage.setItem('chatHistory', JSON.stringify(newMessages));
-  };
 
   // Chatbot's Reply Logic
   const handleChat = () => {
@@ -358,7 +349,7 @@ export default function App() {
     if (inputMessage.trim() !== '') {
       setOriginalUserMessage(inputMessage);
       const userMessage = { text: inputMessage, sender: 'user' };
-      setMessagesWithLocalStorage((prevMessages) => [...prevMessages, userMessage]);
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
       setInputMessage('');
 
       setIsBotTyping(true);
@@ -374,7 +365,7 @@ export default function App() {
         .then((data) => {
           audio.current.play();
           const botMessage = { text: `Dear ${name}, ${data.response}`, sender: 'bot' };
-          setMessagesWithLocalStorage((prevMessages) => [...prevMessages, botMessage]);
+          setMessages((prevMessages) => [...prevMessages, botMessage]);
 
           if (data.options) {
             setOptions(data.options);
@@ -393,7 +384,7 @@ export default function App() {
   // If a sugestion is clicked
   const handleOptionClick = (option) => {
     const userMessage = { text: option, sender: 'user' };
-    setMessagesWithLocalStorage((prevMessages) => [...prevMessages, userMessage]);
+    setMessages((prevMessages) => [...prevMessages, userMessage]);
 
     setIsBotTyping(true);
 
@@ -408,7 +399,7 @@ export default function App() {
       .then((data) => {
         audio.current.play();
         const botMessage = { text: `Dear ${name}, ${data.response}`, sender: 'bot' };
-        setMessagesWithLocalStorage((prevMessages) => [...prevMessages, botMessage]);
+        setMessages((prevMessages) => [...prevMessages, botMessage]);
 
         if (data.options) {
           setOptions(data.options);
@@ -438,7 +429,7 @@ export default function App() {
       text: 'Thankyou for the feedback!',
       sender: 'bot',
     }
-    setMessagesWithLocalStorage((prevMessages) => [...prevMessages, botMessage]);
+    setMessages((prevMessages) => [...prevMessages, botMessage]);
 
   }
 
@@ -461,7 +452,7 @@ export default function App() {
             text: 'Thank you for the feedback! I will try to improve next time...',
             sender: 'bot',
           };
-          setMessagesWithLocalStorage((prevMessages) => [...prevMessages, botMessage]);
+          setMessages((prevMessages) => [...prevMessages, botMessage]);
         } else {
           console.error("Failed to send thumbs down message. Server responded with status:", response.status);
         }
@@ -474,7 +465,7 @@ export default function App() {
   // IF USER EXITS CHATBOT
   const handleToggleExitModal = () => {
     if (messages.length === 2) {
-      setMessagesWithLocalStorage([
+      setMessages([
         { text: "Hello, I am VishwaGuru!", sender: 'bot' },
         { text: 'Let us get started with your Name and Email! It helps me to remember you :)', sender: 'bot' },
       ]);
@@ -494,7 +485,7 @@ export default function App() {
   };
 
   const handleExitYes = () => {
-    setMessagesWithLocalStorage([
+    setMessages([
       { text: "Hello, I am VishwaGuru!", sender: 'bot' },
       { text: 'Let us get started with your Name and Email! It helps me to remember you :)', sender: 'bot' },
     ]);
