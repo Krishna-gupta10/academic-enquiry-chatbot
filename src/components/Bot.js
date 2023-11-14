@@ -127,7 +127,7 @@ export default function App() {
       setMessages((prevMessages) => [...prevMessages, userMessage]);
 
       const botMessage = {
-        text: 'Different Facicilites Provided @VIIT Are:', sender: 'bot'
+        text: 'Different Facilities Provided @VIIT Are:', sender: 'bot'
       };
       setMessages((prevMessages) => [...prevMessages, botMessage]);
       setCurrentMenu('one');
