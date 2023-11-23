@@ -44,7 +44,7 @@ else:
     confidence_score = xgb_classifier.predict_proba(user_input_tfidf).max() * 100
     
 
-    if confidence_score >= 10:
+    if confidence_score >= 15:
         response = {"response": predicted_answer}
     else:
         response = {"response": "We are not confident in our answer. Please contact the helpline for assistance."}
