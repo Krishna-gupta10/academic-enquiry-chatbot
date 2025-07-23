@@ -1,21 +1,22 @@
 #blur.active {
-    filter: blur(20px);
+    filter: blur(100px);
     pointer-events: none;
     user-select: none;
 }
 
 #chatbot {
     position: fixed;
-    top: 40%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 600px;
-    padding: 50px;
+    width: 35%;
+    padding: 30px 50px; 
     box-shadow: 0px 5px 30px;
     background: #fff;
     visibility: hidden;
     opacity: 0;
     transition: 0.5s;
+    border-radius: 10px;
 }
 
 #chatbot.active {
@@ -24,17 +25,18 @@
 }
 
 .chat-container {
-    width: 500px;
-    scroll-behavior: auto;
+    width: 100%;
+    height: auto;
+    scroll-behavior: smooth;
 }
 
 .chat-messages {
-    padding: 10px;
-    margin-bottom: 10px;
-    height: 300px;
+    height: 400px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
+    padding: 10px;
+    margin-bottom: 25px;
 }
 
 .message {
@@ -51,29 +53,59 @@
 }
 
 .other-message {
-    background-color: #f0f0f0;
+    background-color: #E0E0E0;
     color: #333;
     align-self: flex-start;
 }
 
-input[type="text"] {
-    width: 80%;
-    padding: 5px;
-    border: 1px solid black;
-    margin-right: 7%;  
+.input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-right: 10px;
+    margin-top: auto;
 }
 
-.showBOT {
-    padding: 5px 10px;
-    border: none;
-    cursor: pointer;
+.input-details[type="text"] {
+    align-self: flex-end;
+    width: 40%;
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 10px;
+    margin-bottom: 5px;
+}
+
+.input-details[type="email"] {
+    align-self: flex-end;
+    width: 60%;
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 10px;
+    margin-bottom: 5px;
+}
+
+.message-input {
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    padding: 10px 10px;
+    height: auto;
+}
+
+input[type="text"] {
+    width: 80%;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 7px;
+    flex: 1;
+    font-size: 16px;
 }
 
 .closeBOT {
     padding: 5px 10px;
     border: none;
     cursor: pointer;
-    background-color: #fff;
+    background-color: #2f86b9;
     position: absolute;
     top: 10px;
     right: 10px;
@@ -114,4 +146,137 @@ input[type="text"] {
         transform: translateY(0);
         opacity: 1;
     }
+}
+
+.chat-options {
+    align-self: flex-start;
+    display: flex;
+    flex-wrap: wrap;
+    top: 100%;
+    left: 0;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    cursor: pointer;
+}
+
+.chat-options:hover {
+    background-color: #f5f5f5;
+}
+
+.chat-options-active {
+    background-color: #eee;
+}
+
+img {
+    position: fixed;
+    bottom: 30px;
+    right: 60px;
+    height: 65px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    z-index: 999;
+}
+
+.popup-message {
+    position: fixed;
+    bottom: 85px;
+    right: 40px;
+}
+
+.send-button {
+    background-color: #cccccc;
+    color: #666666;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.send-button:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.exit-modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.exit-modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.exit-modal h5 {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.exit-modal-footer {
+    display: flex;
+    justify-content: center;
+}
+
+.exit-yes-button,
+.exit-no-button {
+    padding: 8px 16px;
+    margin: 0 10px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.exit-yes-button {
+    background-color: #2ecc71;
+    color: #fff;
+}
+
+.exit-no-button {
+    background-color: #e74c3c;
+    color: #fff;
+}
+
+.speech-button {
+    background-color: #ccc;
+    color: #666;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.speech-button:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.speech-button:focus {
+    outline: none;
+}
+
+.Options {
+    display: flex;
 }

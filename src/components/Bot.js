@@ -1,175 +1,65 @@
-import React, { useState, useEffect, useRef } from 'react';
-import './Bot.css';
-import messageSound from './message.mp3';
-import vishwaguruImage from './botimg.jpg';
+import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+from xgboost import XGBClassifier
+from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.preprocessing import LabelEncoder
+import json
+import sys
 
-export default function App() {
-  const [messages, setMessages] = useState([]);
-  const [inputMessage, setInputMessage] = useState('');
-  const [isBotTyping, setIsBotTyping] = useState(false);
-  const [options, setOptions] = useState([]);
-  const audio = useRef(null);
+# Load training data
+training_set = pd.read_excel('./backend/routes/training_set.xlsx', sheet_name='Sheet1')
+X_train = training_set['Questions']
+y_train = training_set['Answers']
 
-  useEffect(() => {
-    setMessages([
-      { text: "Hello, I am VishwaGuru!", sender: 'bot' },
-      { text: 'Feel free to ask me anything about Vishwakarma Institute of Technology.', sender: 'bot' },
-    ]);
-  }, []);
+# Load options data
+options_set = pd.read_excel('./backend/routes/options.xlsx', sheet_name='Sheet1')
+X_options = options_set['Questions']
+y_options = options_set['Answers']
 
-  const toggleBOT = () => {
-    let blur = document.getElementById('blur');
-    blur.classList.toggle('active');
+# Encode target labels
+label_encoder = LabelEncoder()
+y_train_encoded = label_encoder.fit_transform(y_train)
 
-    let chatbot = document.getElementById('chatbot');
-    chatbot.classList.toggle('active');
-  };
+# TF-IDF vectorization and model training
+tfidf_vectorizer = TfidfVectorizer()
+X_train_tfidf = tfidf_vectorizer.fit_transform(X_train)
+xgb_classifier = XGBClassifier()
+xgb_classifier.fit(X_train_tfidf, y_train_encoded)
 
-  const handleChat = () => {
-    if (inputMessage.trim() !== '') {
-      const userMessage = { text: inputMessage, sender: 'user' };
-      setMessages((prevMessages) => [...prevMessages, userMessage]);
-      setInputMessage('');
+# Option generation logic
+def generate_options(user_input, all_questions, tfidf_vectorizer):
+    user_input_tfidf = tfidf_vectorizer.transform([user_input])
+    all_questions_tfidf = tfidf_vectorizer.transform(all_questions)
+    similarity_scores = cosine_similarity(user_input_tfidf, all_questions_tfidf)[0]
+    top_indices = similarity_scores.argsort()[-3:][::-1]
 
-      setIsBotTyping(true);
+    options = [all_questions.iloc[i] for i in top_indices if all_questions.iloc[i] != user_input]
+    remaining_options = set(all_questions) - set(options + [user_input])
+    options.extend(list(remaining_options)[:3 - len(options)])
 
-      fetch("http://localhost:5000/chatbot", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ query: inputMessage, selected_option: null }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          audio.current.play();
-          const botMessage = { text: data.response, sender: 'bot' };
-          setMessages((prevMessages) => [...prevMessages, botMessage]);
+    return options[:3]
 
-          if (data.options) {
-            setOptions(data.options);
-          }
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        })
-        .finally(()=> {
-          setIsBotTyping(false);
-        });
-    }
-  };
+# Handle input
+user_input = sys.argv[1]
+selected_option = sys.argv[2] if len(sys.argv) > 2 else None
 
-  const handleOptionClick = (option) => {
-    const botMessage = { text: option, sender: 'user' };
-    setMessages((prevMessages) => [...prevMessages, botMessage]);
+if len(user_input.strip()) == 0:
+    response = {"response": "Please enter a valid query."}
+else:
+    user_input_tfidf = tfidf_vectorizer.transform([user_input])
+    predicted_answer_encoded = xgb_classifier.predict(user_input_tfidf)[0]
+    predicted_answer = label_encoder.inverse_transform([predicted_answer_encoded])[0]
+    confidence_score = xgb_classifier.predict_proba(user_input_tfidf).max() * 100
 
-    setIsBotTyping(true);
+    if confidence_score >= 15:
+        response = {"response": predicted_answer}
+    else:
+        response = {"response": "We are not confident in our answer. Please contact the helpline for assistance."}
 
-    fetch("http://localhost:5000/chatbot", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ query: option, selected_option: option }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        audio.current.play();
-        const botMessage = { text: data.response, sender: 'bot' };
-        setMessages((prevMessages) => [...prevMessages, botMessage]);
+    if selected_option:
+        response["selected_option"] = selected_option
 
-        if (data.options) {
-          setOptions(data.options);
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      })
-      .finally(()=> {
-        setIsBotTyping(false);
-      });
-  };
+    options = generate_options(user_input, X_options, tfidf_vectorizer)
+    response["options"] = options
 
-  const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
-      handleChat();
-    }
-  };
-
-  return (
-    <>
-      <div className="container" id="blur">
-        <br />
-        <button className="showBOT" onClick={toggleBOT}>
-          iShowBot
-        </button>
-      </div>
-
-      <div id="chatbot">
-        <nav className="navbar my-3" style={{ backgroundColor: '#2f86b9' }}>
-          <div className="container-fluid">
-            <a className="navbar-brand" href="/">
-              <span style={{ display: 'flex', alignItems: 'center' }}>
-                <img
-                  src={vishwaguruImage}
-                  alt="VishwaGuru"
-                  style={{ height: '40px', width: 'auto', marginRight: '10px' }}
-                />
-                VishwaGuru
-              </span>
-            </a>
-          </div>
-        </nav>
-
-        <div className="chat-container">
-          <div className="chat-messages" id="chat-messages">
-            {messages.map((message, index) => (
-              <div
-                key={index}
-                className={`message ${message.sender === 'user' ? 'user-message' : 'other-message'}`}
-              >
-                {message.text}
-              </div>
-            ))}
-
-            {options.length > 0 && (
-              <div className="option-container show slide-in">
-                {options.map((option, index) => (
-                  <button
-                    key={index}
-                    className="option-button show"
-                    onClick={() => handleOptionClick(option)}
-                  >
-                    {option}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {isBotTyping && (
-            <div className="message bot-message">Typing...</div>
-          )}
-
-          <input
-            type="text"
-            id="message-input"
-            placeholder="Type your message..."
-            onKeyDown={handleKeyDown}
-            value={inputMessage}
-            onChange={(e) => setInputMessage(e.target.value)}
-          />
-          <button style={{ backgroundColor: 'white', color: 'blue' }} className="mx-2" id="send-button" onClick={handleChat}> <i class="fa fa-send-o"></i>  
-          </button>
-        </div>
-
-        <br />
-        <button className="closeBOT" onClick={toggleBOT}>
-        <button type="button" class="btn-close" aria-label="Close"></button>
-        </button>
-      </div>
-
-      <audio ref={audio} src={messageSound} preload="auto" />
-    </>
-  );
-}
+print(json.dumps(response))
