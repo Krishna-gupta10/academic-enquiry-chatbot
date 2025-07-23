@@ -90,5 +90,3 @@ router.post('/userdetails', [
 });
 
 module.exports = router;
-
-
